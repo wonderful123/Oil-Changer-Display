@@ -188,7 +188,15 @@ void readTouchScreen(lv_indev_drv_t* indev_driver, lv_indev_data_t* data) {
 
 void setup() {
   Serial.begin(115200);
-  delay(250);
+ 
+  if (!configManager.loadConfig()) {
+    Serial.println("Failed to load configuration, using default settings.");
+  }
+
+  JsonObject displayConfig = configManager.getDisplayConfig();
+  // Now you can use displayConfig to initialize your display
+  int width = displayConfig["width"];
+  // ... and so on for other display parameters
 
   gfx->begin();
   gfx->fillScreen(BLACK);
