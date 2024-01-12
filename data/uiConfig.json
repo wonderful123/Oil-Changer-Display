@@ -1,0 +1,31 @@
+{
+  "display": {
+    "width": 480,
+    "height": 272,
+    "dePin": 40,
+    "vsyncPin": 41,
+    "hsyncPin": 39,
+    "pclkPin": 42,
+    "rBusPins": [45, 48, 47, 21, 14],
+    "gBusPins": [5, 6, 7, 15, 16, 4],
+    "bBusPins": [8, 3, 46, 9, 1],
+    "hsyncPolarity": 0,
+    "hsyncFrontPorch": 1,
+    "hsyncPulseWidth": 1,
+    "hsyncBackPorch": 43,
+    "vsyncPolarity": 0,
+    "vsyncFrontPorch": 3,
+    "vsyncPulseWidth": 1,
+    "vsyncBackPorch": 12,
+    "pclkActiveNeg": 1,
+    "speedHz": 9000000,
+    "backlightPin": 2
+  },
+  "touch": {
+    "sdaPin": 19,
+    "sclPin": 20,
+    "intPin": -1,
+    "rstPin": 38,
+    "rotation": "ROTATION_NORMAL"
+  }
+}
