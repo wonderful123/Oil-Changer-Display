@@ -1,3 +1,6 @@
+// ConfigManager.h
+#pragma once
+
 #include <ArduinoJson.h>
 #include <FS.h>
 
