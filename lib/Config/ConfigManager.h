@@ -3,15 +3,17 @@
 
 #include <ArduinoJson.h>
 #include <FS.h>
+#include <LittleFS.h>
+
+#include <string>
 
 class ConfigManager {
  public:
-  ConfigManager(const String& configFile);
-  bool loadConfig();
+  ConfigManager();
+  bool loadConfig(std::string filePath, std::string mode);
   JsonObject getDisplayConfig() const;
   JsonObject getTouchConfig() const;
 
  private:
-  DynamicJsonDocument config;
-  String configFile;
+  mutable JsonDocument _config;  // Make '_config' mutable
 };
