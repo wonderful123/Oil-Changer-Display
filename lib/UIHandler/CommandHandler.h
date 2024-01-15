@@ -1,4 +1,6 @@
+// CommandHandler.h
 #pragma once
+
 #include <string>
 
 // CommandHandler: Responsible for executing commands. The executeCommand method
