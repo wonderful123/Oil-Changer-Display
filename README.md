@@ -10,7 +10,7 @@ This document provides an overview of the Oil Change Display project, a componen
 
 ## Key Files and Configuration
 
-### `board-esp32s3-16Mb-8MbPSRAM.json`
+### `esp32s3-16Mb-8MbPSRAM.json`
 - **Description:** This is the PlatformIO board configuration file for the ESP32 S3 with 16MB Flash and 8MB PSRAM. It defines the board's specifications and memory layout.
 - **Usage:** Copy this file to the appropriate directory in your PlatformIO project to ensure the IDE correctly recognizes the board's configuration.
 
