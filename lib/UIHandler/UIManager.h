@@ -1,9 +1,10 @@
+// UIManager.h
 #pragma once
 
-class ElementController {
+class UIManager {
  public:
-  ElementController();
-  void controlElement();
+  UIManager();
+  void updateUI();
   // Other necessary methods
 
  private:
