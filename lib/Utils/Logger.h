@@ -3,6 +3,8 @@
 
 #pragma once
 
+
+
 /**
  * @file Logger.h
  * @brief The Logger class provides a logging utility for outputting log
