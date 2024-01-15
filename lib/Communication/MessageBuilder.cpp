@@ -1,14 +1,23 @@
+// MessageBuilder.cpp
 #include "MessageBuilder.h"
 
-#include "Logger.h"
-
 MessageBuilder::MessageBuilder() {
-  // Constructor implementation
+  // Constructor implementation, if needed
 }
 
 std::string MessageBuilder::buildMessage(const std::string& payload) {
-  // Build the message with appropriate format and protocol
-  std::string message = "<" + payload + ">";
-  // Add any additional formatting or protocol-specific details
+  // Calculate checksum
+  unsigned int checksum = calculateChecksum(payload);
+
+  // Build the message
+  std::string message = "<" + payload + ";" + std::to_string(checksum) + ">";
   return message;
+}
+
+unsigned int MessageBuilder::calculateChecksum(const std::string& payload) {
+  unsigned int sum = 0;
+  for (char c : payload) {
+    sum += static_cast<unsigned int>(c);
+  }
+  return sum % 256;  // Assuming a byte-size checksum
 }

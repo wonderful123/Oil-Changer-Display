@@ -1,18 +1,19 @@
+// CommunicationManager.cpp
 #include "CommunicationManager.h"
 
-#include "Logger.h"
+CommunicationManager::CommunicationManager(
+    std::shared_ptr<ICommunicationInterface> interface)
+    : _interface(interface) {}
 
-CommunicationManager::CommunicationManager() {
-  // Constructor implementation
-}
-
-void CommunicationManager::sendMessage(const std::string& message) {
-  // Send the message over the communication interface
-  // ...
-}
+void CommunicationManager::initialize() { _interface->begin(); }
 
 std::string CommunicationManager::receiveMessage() {
-  // Receive a message from the communication interface
-  // ...
-  return "";  // Return the received message or an empty string if none
+  std::string receivedMessage;
+  while (_interface->available()) {
+    int byteRead = _interface->read();
+    if (byteRead != -1) {  // Check if a byte is available
+      receivedMessage += static_cast<char>(byteRead);
+    }
+  }
+  return receivedMessage;
 }

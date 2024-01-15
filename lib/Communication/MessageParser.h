@@ -1,15 +1,17 @@
+// MessageParser.h
 #pragma once
-#include <string>
 
-// MessageParser: Parses incoming messages, ensuring they adhere to the defined
-// communication protocol.
+#include <string>
+#include <unordered_map>
 
 class MessageParser {
  public:
   MessageParser();
-  std::string parseMessage(const std::string& message);
-  // Other necessary methods
+  std::unordered_map<std::string, std::string> parseMessage(
+      const std::string& message);
 
  private:
-  // Internal data structures and methods
+  bool validateChecksum(const std::string& message,
+                        const std::string& checksum);
+  bool isValidIdentifier(const std::string& identifier);
 };

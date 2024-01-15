@@ -1,13 +1,18 @@
+// CommunicationManager.h
 #pragma once
+
+#include <memory>
 #include <string>
+
+#include "HAL/ICommunicationInterface.h"
 
 class CommunicationManager {
  public:
-  CommunicationManager();
-  void sendMessage(const std::string& message);
+  explicit CommunicationManager(
+      std::shared_ptr<ICommunicationInterface> interface);
+  void initialize();
   std::string receiveMessage();
-  // Other necessary methods
 
  private:
-  // Internal data structures and methods
+  std::shared_ptr<ICommunicationInterface> _interface;
 };
