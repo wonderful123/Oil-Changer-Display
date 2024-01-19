@@ -9,7 +9,7 @@ ConfigHandler::ConfigHandler() {
 
 void ConfigHandler::updateConfig(const std::string& jsonConfig) {
   // Parse and update configuration
-  DynamicJsonDocument doc(1024);
+  JsonDocument doc;
   auto error = deserializeJson(doc, jsonConfig);
   if (error) {
     Logger::error("Failed to parse JSON config");
