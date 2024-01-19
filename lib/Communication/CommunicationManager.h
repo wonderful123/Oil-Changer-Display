@@ -4,15 +4,17 @@
 #include <memory>
 #include <string>
 
+#include "ESP32/ESP32Serial.h"
 #include "HAL/ICommunicationInterface.h"
+class MessageData;
 
 class CommunicationManager {
  public:
-  explicit CommunicationManager(
-      std::shared_ptr<ICommunicationInterface> interface);
   void initialize();
-  std::string receiveMessage();
+  MessageData processMessage();
 
  private:
-  std::shared_ptr<ICommunicationInterface> _interface;
+  //   std::shared_ptr<ICommunicationInterface> _interface;
+  HardwareSerial& _interface;
+  MessageData parseMessage(const std::string& receivedMessage);
 };
