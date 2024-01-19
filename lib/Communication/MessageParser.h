@@ -4,14 +4,14 @@
 #include <string>
 #include <unordered_map>
 
+class MessageData;
+
 class MessageParser {
  public:
-  MessageParser();
-  std::unordered_map<std::string, std::string> parseMessage(
-      const std::string& message);
+  static MessageData parseMessage(const std::string& message);
 
  private:
-  bool validateChecksum(const std::string& message,
+  static bool validateChecksum(const std::string& message,
                         const std::string& checksum);
-  bool isValidIdentifier(const std::string& identifier);
+  static bool isValidIdentifier(const std::string& identifier);
 };

@@ -6,17 +6,12 @@
 
 #include "Config.h"
 #include "Logger.h"
+#include "MessageData.h"
 
-MessageParser::MessageParser() {
-  // Constructor implementation (if needed)
-}
-
-std::unordered_map<std::string, std::string> MessageParser::parseMessage(
-    const std::string& message) {
-  std::unordered_map<std::string, std::string> data;
+MessageData MessageParser::parseMessage(const std::string& message) {
+  MessageData data;
 
   if (message.empty() || message.front() != '<' || message.back() != '>') {
-    Logger::error("[MessageParser] Invalid message format");
     return data;  // Return empty map
   }
 
@@ -34,7 +29,7 @@ std::unordered_map<std::string, std::string> MessageParser::parseMessage(
 
   if (!isValidIdentifier(identifier)) {
     Logger::error("[MessageParser] Identifier mismatch");
-    return std::unordered_map<std::string, std::string>();  // Return empty map
+    return MessageData();  // Return empty map
   }
 
   // Process the payload
@@ -50,7 +45,7 @@ std::unordered_map<std::string, std::string> MessageParser::parseMessage(
   // Validate checksum
   if (!validateChecksum(payload, extractedChecksum)) {
     Logger::error("[MessageParser] Checksum validation failed");
-    return std::unordered_map<std::string, std::string>();  // Return empty map
+    return MessageData();  // Return empty map
   }
 
   // Parse payload
@@ -61,7 +56,7 @@ std::unordered_map<std::string, std::string> MessageParser::parseMessage(
     if (delimiterPos != std::string::npos) {
       std::string key = token.substr(0, delimiterPos);
       std::string value = token.substr(delimiterPos + 1);
-      data[key] = value;
+      data.data()[key] = value;  // Access internal map of MessageData
     }
   }
 
