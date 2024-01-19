@@ -21,7 +21,7 @@ class ESP32Serial : public ISerial {
   void flush() override;
 
  private:
-  HardwareSerial _serial;
+  HardwareSerial *_serial;
   int _rxPin, _txPin, _uartPort;
   unsigned long _baudRate;
 
