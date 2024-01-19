@@ -4,22 +4,17 @@
 #include <memory>
 #include <string>
 
-#include "CommunicationManager.h"
 #include "DisplayManager.h"
-#include "ESP32/ESP32Serial.h"
-#include "HAL/HardwarePinConfig.h"
 #include "Logger.h"
+#include "SystemManager.h"
 
 // Foward declarations
-class ICommunicationInterface;
-void initializeCommunication();
 void serialLogCallback(Logger::Level level, const std::string& message);
 void initializeLogger();
 
 // Global Objects
 DisplayManager displayManager;
-std::shared_ptr<ICommunicationInterface> communicationInterface;
-CommunicationManager communicationManager(communicationInterface);
+SystemManager systemManager;
 
 void logMemory() {
   log_d("Total heap: %d", ESP.getHeapSize());
@@ -31,7 +26,7 @@ void logMemory() {
 
 void setup() {
   initializeLogger();
-  initializeCommunication();
+  systemManager.initialize();
   displayManager.initialize();
 
   logMemory();
@@ -39,17 +34,14 @@ void setup() {
 }
 
 void loop() {
-  std::string message = communicationManager.receiveMessage();
-  if (!message.empty()) {
-    // Process the received message
-  }
-
+  systemManager.update();
   displayManager.update();
 }
 
 void serialLogCallback(Logger::Level level, const std::string& message) {
   if (!Serial) return;
   Serial.println(message.c_str());
+  Serial.flush();
 }
 
 void initializeLogger() {
@@ -66,12 +58,4 @@ void initializeLogger() {
                              /___/                    /_/          /___/  
     )");
   Logger::info("[Main] Logger initialized and ready.");
-}
-
-void initializeCommunication() {
-  // Standard ESP32S3 Serial Pins Configuration
-  HardwarePinConfig serialConfig({{"RX", 34}, {"TX", 35}}, "Serial0", "Serial");
-  communicationInterface = std::make_shared<ESP32Serial>(serialConfig);
-  communicationManager = CommunicationManager(communicationInterface);
-  communicationManager.initialize();
 }
