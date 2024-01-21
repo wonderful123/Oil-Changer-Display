@@ -84,25 +84,53 @@ const std::string Logger::getColorCodeForLevel(Level level) {
 }
 
 /**
- * Formats the log message by appending the log level and color coding to it.
+ * Formats the log message by appending the log level, color coding, and
+ * optionally the filename.
+ *
+ * This method formats the log message by including the log level, applying
+ * color coding based on the log level, and appending the filename if provided.
  *
  * @param level The level of the log message.
  * @param message The message to format.
+ * @param fileName The filename from which the log is generated. If empty, the
+ * filename is not included.
+ * @return The formatted log message as a string.
  */
-std::string Logger::formatMessage(Level level, const std::string &message) {
+std::string Logger::formatMessage(Level level, const std::string &message,
+                                  const std::string &fileName) {
   std::ostringstream formattedMessage;
 
+  // Apply color coding based on the log level
   const std::string colorCode = getColorCodeForLevel(level);
   const std::string levelStr = levelToString(level);
   const std::string standardColor = "\033[0m";
 
-  formattedMessage << colorCode << "[" << levelStr << "]"
+  formattedMessage << colorCode << "[" << levelStr << "]";
+
+  // Include filename if provided
+  if (!fileName.empty()) {
+    std::string shortFileName = extractFileName(fileName);
+    formattedMessage << "[" << shortFileName << "]";
+  }
+
 #ifdef LOGGER_USE_COLOR
-                   << standardColor
+  formattedMessage << standardColor;
 #endif
-                   << " " << message;
+
+  formattedMessage << " " << message;
 
   return formattedMessage.str();
+}
+
+// Method to extract the filename from the full path, without the extension
+std::string Logger::extractFileName(const std::string &filePath) {
+  size_t lastSlash = filePath.find_last_of("\\/");
+  std::string filename = (lastSlash == std::string::npos)
+                             ? filePath
+                             : filePath.substr(lastSlash + 1);
+  size_t extension = filename.find_last_of('.');
+  return (extension == std::string::npos) ? filename
+                                          : filename.substr(0, extension);
 }
 
 // Logging methods
@@ -131,5 +159,43 @@ void Logger::error(const std::string &message) {
 #if defined(LOGGER_LEVEL_DEBUG) || defined(LOGGER_LEVEL_INFO) || \
     defined(LOGGER_LEVEL_WARN) || defined(LOGGER_LEVEL_ERROR)
   log(ERROR, message);
+#endif
+}
+
+void Logger::debug(const std::string &message, const std::string &fileName) {
+#if defined(LOGGER_LEVEL_DEBUG)
+  if (_log_callback) {
+    std::string formattedMessage = formatMessage(DEBUG, message, fileName);
+    _log_callback(DEBUG, formattedMessage);
+  }
+#endif
+}
+
+void Logger::info(const std::string &message, const std::string &fileName) {
+#if defined(LOGGER_LEVEL_DEBUG) || defined(LOGGER_LEVEL_INFO)
+  if (_log_callback) {
+    std::string formattedMessage = formatMessage(INFO, message, fileName);
+    _log_callback(INFO, formattedMessage);
+  }
+#endif
+}
+
+void Logger::warn(const std::string &message, const std::string &fileName) {
+#if defined(LOGGER_LEVEL_DEBUG) || defined(LOGGER_LEVEL_INFO) || \
+    defined(LOGGER_LEVEL_WARN)
+  if (_log_callback) {
+    std::string formattedMessage = formatMessage(WARN, message, fileName);
+    _log_callback(WARN, formattedMessage);
+  }
+#endif
+}
+
+void Logger::error(const std::string &message, const std::string &fileName) {
+#if defined(LOGGER_LEVEL_DEBUG) || defined(LOGGER_LEVEL_INFO) || \
+    defined(LOGGER_LEVEL_WARN) || defined(LOGGER_LEVEL_ERROR)
+  if (_log_callback) {
+    std::string formattedMessage = formatMessage(ERROR, message, fileName);
+    _log_callback(ERROR, formattedMessage);
+  }
 #endif
 }

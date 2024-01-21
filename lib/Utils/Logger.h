@@ -157,16 +157,69 @@ class Logger {
    */
   static void error(const std::string &message);
 
+  // Overloaded logging methods that include the filename
+  /**
+   * Logs a debug message with the filename where the log was generated.
+   *
+   * @param message The debug message to log.
+   * @param fileName The filename from which the log is generated.
+   */
+  static void debug(const std::string &message, const std::string &fileName);
+
+  /**
+   * Logs an info message with the filename where the log was generated.
+   *
+   * @param message The info message to log.
+   * @param fileName The filename from which the log is generated.
+   */
+  static void info(const std::string &message, const std::string &fileName);
+
+  /**
+   * Logs a warning message with the filename where the log was generated.
+   *
+   * @param message The warning message to log.
+   * @param fileName The filename from which the log is generated.
+   */
+  static void warn(const std::string &message, const std::string &fileName);
+
+  /**
+   * Logs an error message with the filename where the log was generated.
+   *
+   * @param message The error message to log.
+   * @param fileName The filename from which the log is generated.
+   */
+  static void error(const std::string &message, const std::string &fileName);
+
+    /**
+   * @brief Extracts the filename from a full file path.
+   *
+   * This method takes a file path and returns the filename portion,
+   * excluding the directory path and the file extension.
+   *
+   * @param filePath The full path of the file.
+   * @return The filename without the extension.
+   */
+  static std::string extractFileName(const std::string &filePath);
+
  private:
   static LogCallback _log_callback;  ///< Function pointer to the log callback.
 
   /**
-   * Formats a log message with the log level and color coding.
+   * @brief Formats a log message with the log level, color coding, and
+   * filename.
+   *
+   * This method formats the given message by prefixing it with the log level
+   * and applying color coding based on the log level. Additionally, it
+   * appends the filename where the log was generated, if provided.
    *
    * @param level The level of the log message.
    * @param message The message to format.
+   * @param fileName The filename from which the log is generated. Can be empty
+   * if not provided.
+   * @return The formatted log message as a string.
    */
-  static std::string formatMessage(Level level, const std::string &message);
+  static std::string formatMessage(Level level, const std::string &message,
+                                   const std::string &fileName = "");
 
   /**
    * Retrieves the ANSI color code for a given log level.
@@ -176,3 +229,36 @@ class Logger {
    */
   static const std::string getColorCodeForLevel(Level level);
 };
+
+// Macro definitions for easy logging with filename
+/**
+ * @brief Logs a debug message with the filename.
+ *        The filename is automatically extracted using the __FILE__ macro.
+ *
+ * @param msg The debug message to log.
+ */
+#define LOG_DEBUG(msg) Logger::debug(msg, Logger::extractFileName(__FILE__))
+
+/**
+ * @brief Logs an info message with the filename.
+ *        The filename is automatically extracted using the __FILE__ macro.
+ *
+ * @param msg The info message to log.
+ */
+#define LOG_INFO(msg) Logger::info(msg, Logger::extractFileName(__FILE__))
+
+/**
+ * @brief Logs a warning message with the filename.
+ *        The filename is automatically extracted using the __FILE__ macro.
+ *
+ * @param msg The warning message to log.
+ */
+#define LOG_WARN(msg) Logger::warn(msg, Logger::extractFileName(__FILE__))
+
+/**
+ * @brief Logs an error message with the filename.
+ *        The filename is automatically extracted using the __FILE__ macro.
+ *
+ * @param msg The error message to log.
+ */
+#define LOG_ERROR(msg) Logger::error(msg, Logger::extractFileName(__FILE__))
