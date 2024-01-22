@@ -7,5 +7,15 @@
 
 void onPinCodeButtonPress(lv_event_t * e)
 {
-	// Your code here
+  /*The original target of the event. Can be the buttons or the container*/
+  lv_obj_t* target = lv_event_get_target(e);
+
+  /*The current target is always the container as the event is added to it*/
+  lv_obj_t* cont = lv_event_get_current_target(e);
+
+  /*If container was clicked do nothing*/
+  if (target == cont) return;
+
+  /*Make the clicked buttons red*/
+  lv_obj_set_style_bg_color(target, lv_palette_main(LV_PALETTE_RED), 0);
 }
