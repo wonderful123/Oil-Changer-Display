@@ -7,7 +7,7 @@
 
 #include <memory>
 
-#include "ui.h"
+#include "Squareline-UI/ui.h"
 
 // Forward declarations
 class TouchScreenManager;
@@ -30,7 +30,7 @@ class DisplayManager {
   std::shared_ptr<TouchScreenManager> _touchScreenManager;
 
   lv_disp_draw_buf_t _drawBuffer;
-  //lv_color_t _buffer[BUFFER_SIZE];
+  // lv_color_t _buffer[BUFFER_SIZE];
   lv_color_t* _buffer;
   static Arduino_RGB_Display* _gfxContext;
   Arduino_ESP32RGBPanel* _rgbPanel;
