@@ -41,7 +41,6 @@ extern lv_obj_t * ui_Fill_Capacity_Number_2;
 extern lv_obj_t * ui_Fill_Capacity_Number_1;
 extern lv_obj_t * ui_Label_Fill_Capacity;
 extern lv_obj_t * ui_Label_Fill_Capacity_Unit;
-void ui_event_Slider_Extract(lv_event_t * e);
 extern lv_obj_t * ui_Slider_Extract;
 extern lv_obj_t * ui_Slider_Fill;
 extern lv_obj_t * ui_Group_Extract_Percent;

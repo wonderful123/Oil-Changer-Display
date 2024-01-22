@@ -26,7 +26,6 @@ lv_obj_t * ui_Fill_Capacity_Number_2;
 lv_obj_t * ui_Fill_Capacity_Number_1;
 lv_obj_t * ui_Label_Fill_Capacity;
 lv_obj_t * ui_Label_Fill_Capacity_Unit;
-void ui_event_Slider_Extract(lv_event_t * e);
 lv_obj_t * ui_Slider_Extract;
 lv_obj_t * ui_Slider_Fill;
 lv_obj_t * ui_Group_Extract_Percent;
@@ -388,14 +387,6 @@ void ui_event_Main(lv_event_t * e)
         Particle3_Animation(ui_Image_Particle3, 0);
         Wave1_Animation(ui_Wave1, 0);
         Wave2_Animation(ui_Wave2, 0);
-    }
-}
-void ui_event_Slider_Extract(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_VALUE_CHANGED) {
-        _ui_slider_set_property(ui_Slider_Extract, _UI_SLIDER_PROPERTY_VALUE_WITH_ANIM,);
     }
 }
 void ui_event_BTN_BG1(lv_event_t * e)

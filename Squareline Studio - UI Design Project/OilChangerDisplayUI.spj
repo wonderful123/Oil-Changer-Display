@@ -1893,77 +1893,6 @@
                 "strtype": "SLIDER/Style_knob",
                 "strval": "lv.PART.KNOB, Rectangle, Pad",
                 "InheritedType": 11
-              },
-              {
-                "disabled": false,
-                "nid": -237167690,
-                "strtype": "_event/EventHandler",
-                "strval": "VALUE_CHANGED",
-                "childs": [
-                  {
-                    "nid": -493248362,
-                    "strtype": "_custom/name",
-                    "strval": "Event2",
-                    "InheritedType": 10
-                  },
-                  {
-                    "nid": -1324889660,
-                    "strtype": "_custom/condition_C",
-                    "strval": "",
-                    "InheritedType": 10
-                  },
-                  {
-                    "nid": 1713254194,
-                    "strtype": "_custom/condition_P",
-                    "strval": "",
-                    "InheritedType": 10
-                  },
-                  {
-                    "nid": 1702905912,
-                    "strtype": "_event/action",
-                    "strval": "SLIDER_PROPERTY",
-                    "childs": [
-                      {
-                        "nid": 623824147,
-                        "strtype": "SLIDER_PROPERTY/Name",
-                        "strval": "SLIDER_PROPERTY",
-                        "InheritedType": 10
-                      },
-                      {
-                        "nid": 155378696,
-                        "strtype": "SLIDER_PROPERTY/Call",
-                        "strval": "SetSliderProperty(<{Target}>, '<{Property}>', <{Value}>)",
-                        "InheritedType": 10
-                      },
-                      {
-                        "nid": -782557428,
-                        "strtype": "SLIDER_PROPERTY/CallC",
-                        "strval": "_ui_slider_set_property(<{Target}>, _UI_SLIDER_PROPERTY_<{Property}>, <{Value}>);",
-                        "InheritedType": 10
-                      },
-                      {
-                        "nid": -1466308886,
-                        "strtype": "SLIDER_PROPERTY/Target",
-                        "strval": "GUID12477675-997502S1091150",
-                        "InheritedType": 9
-                      },
-                      {
-                        "nid": 504803968,
-                        "strtype": "SLIDER_PROPERTY/Property",
-                        "strval": "Value_with_anim",
-                        "InheritedType": 3
-                      },
-                      {
-                        "nid": -2079368390,
-                        "strtype": "SLIDER_PROPERTY/Value",
-                        "strval": "",
-                        "InheritedType": 10
-                      }
-                    ],
-                    "InheritedType": 10
-                  }
-                ],
-                "InheritedType": 4
               }
             ],
             "saved_objtypeKey": "SLIDER",
@@ -45953,7 +45882,7 @@
     "theme_color2": 0,
     "uiExportFolderPath": "C:\\Users\\Josh\\Documents\\PlatformIO\\Projects\\Oil-Changer Display\\lib\\Squareline-UI",
     "projectExportFolderPath": "C:\\Users\\Josh\\Documents\\PlatformIO\\Projects\\Oil-Changer Display\\Squareline Studio - UI Design Project",
-    "backup_cnt": 426,
+    "backup_cnt": 427,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "CPP_FILE",

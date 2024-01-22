@@ -1358,7 +1358,6 @@ void ui_Main_screen_init(void)
     lv_obj_add_flag(ui_Image_Ok, LV_OBJ_FLAG_ADV_HITTEST);     /// Flags
     lv_obj_clear_flag(ui_Image_Ok, LV_OBJ_FLAG_SCROLLABLE);      /// Flags
 
-    lv_obj_add_event_cb(ui_Slider_Extract, ui_event_Slider_Extract, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_BTN_BG1, ui_event_BTN_BG1, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_BTN_BG2, ui_event_BTN_BG2, LV_EVENT_ALL, NULL);
     lv_obj_add_event_cb(ui_BTN_BG3, ui_event_BTN_BG3, LV_EVENT_ALL, NULL);
