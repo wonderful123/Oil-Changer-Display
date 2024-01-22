@@ -14,8 +14,8 @@ class CommunicationManager {
   MessageData processMessage();
 
  private:
-  ICommunicationInterface* _interface;
-   std::shared_ptr<ICommunicationInterface> _interface;
+  // ICommunicationInterface* _interface;
+  std::shared_ptr<ICommunicationInterface> _interface;
   //  HardwareSerial* _interface;
   // TODO: Not sure if pointer or smart pointer
   MessageData parseMessage(const std::string& receivedMessage);
