@@ -2,7 +2,7 @@ SET(SOURCES screens/ui_Main.c
     ui.c
     components/ui_comp_hook.c
     ui_helpers.c
-    ui_events.c
+    ui_events.cpp
     images/ui_img_ebike_bg_png.c
     images/ui_img_speed_slider_png.c
     images/ui_img_slider_battery_png.c

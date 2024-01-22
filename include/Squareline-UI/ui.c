@@ -26,6 +26,7 @@ lv_obj_t * ui_Fill_Capacity_Number_2;
 lv_obj_t * ui_Fill_Capacity_Number_1;
 lv_obj_t * ui_Label_Fill_Capacity;
 lv_obj_t * ui_Unit_Litres;
+void ui_event_Slider_Extract(lv_event_t * e);
 lv_obj_t * ui_Slider_Extract;
 lv_obj_t * ui_Slider_Fill;
 lv_obj_t * ui_Group_Battery_Percent;
@@ -42,7 +43,7 @@ lv_obj_t * ui_Label_Celsius;
 lv_obj_t * ui_Label_Oil_Change;
 lv_obj_t * ui_Group_Footer;
 lv_obj_t * ui_Image_Battery_icon;
-lv_obj_t * ui_Label_Battery_Number;
+lv_obj_t * ui_Label_Battery_Percentage_Number;
 lv_obj_t * ui_Label_Battery_Percent;
 lv_obj_t * ui_Button_Group;
 lv_obj_t * ui_BTN_Driving;
@@ -64,26 +65,26 @@ lv_obj_t * ui_Label_Driving_Information;
 lv_obj_t * ui_Group_Content;
 lv_obj_t * ui_Group_Voltage;
 lv_obj_t * ui_LabeL_Battery;
-lv_obj_t * ui_Label_ODO_Number;
+lv_obj_t * ui_Label_Battery_Voltage_Number;
 lv_obj_t * ui_Label_volts;
 lv_obj_t * ui_Group_Trip;
 lv_obj_t * ui_Label_Oil;
-lv_obj_t * ui_Oil_Temp_Number;
+lv_obj_t * ui_Label_Oil_Temp_Number;
 lv_obj_t * ui_Label_unit;
 lv_obj_t * ui_Group_Max_Speed;
 lv_obj_t * ui_Label_Filled;
-lv_obj_t * ui_Label_Max_Speed_Number;
+lv_obj_t * ui_Label_Amount_Filled_Number;
 lv_obj_t * ui_Label_kmh2;
 lv_obj_t * ui_Group_AVG_Speed;
 lv_obj_t * ui_Label_AVG_Speed;
-lv_obj_t * ui_Label_AVG_Speed_Number;
+lv_obj_t * ui_Label_Amount_Extracted_Number;
 lv_obj_t * ui_Label_kmh3;
 lv_obj_t * ui_Group_ETA;
 lv_obj_t * ui_Label_ETA;
 lv_obj_t * ui_Label_ETA_Number;
 lv_obj_t * ui_Group_Time;
 lv_obj_t * ui_Label_Time1;
-lv_obj_t * ui_Label_Arrival_Time_Number1;
+lv_obj_t * ui_Run_Time;
 lv_obj_t * ui_Group_Battery;
 lv_obj_t * ui_Group_Title1;
 lv_obj_t * ui_Title_BG1;
@@ -164,6 +165,7 @@ void ui_event_Button_PinX1(lv_event_t * e);
 lv_obj_t * ui_Button_PinX1;
 lv_obj_t * ui_Pin_Add12;
 lv_obj_t * ui_Image_Ok;
+void ui_event____initial_actions0(lv_event_t * e);
 lv_obj_t * ui____initial_actions0;
 const lv_img_dsc_t * ui_imgset_particle_[3] = {&ui_img_particle_1_png, &ui_img_particle_2_png, &ui_img_particle_3_png};
 const lv_img_dsc_t * ui_imgset_water_[2] = {&ui_img_water_1_png, &ui_img_water_2_png};
@@ -388,6 +390,14 @@ void ui_event_Main(lv_event_t * e)
         Wave2_Animation(ui_Wave2, 0);
     }
 }
+void ui_event_Slider_Extract(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_VALUE_CHANGED) {
+        _ui_slider_set_property(ui_Slider_Extract, _UI_SLIDER_PROPERTY_VALUE_WITH_ANIM,);
+    }
+}
 void ui_event_BTN_BG1(lv_event_t * e)
 {
     lv_event_code_t event_code = lv_event_get_code(e);
@@ -547,6 +557,17 @@ void ui_event_Button_PinX1(lv_event_t * e)
         Fash_Animation(ui_Pin_Add12, 0);
     }
 }
+void ui_event____initial_actions0(lv_event_t * e)
+{
+    lv_event_code_t event_code = lv_event_get_code(e);
+    lv_obj_t * target = lv_event_get_target(e);
+    if(event_code == LV_EVENT_SCREEN_LOAD_START) {
+        _ui_slider_set_property(ui_Slider_Extract, _UI_SLIDER_PROPERTY_VALUE_WITH_ANIM, 50);
+        _ui_slider_set_property(ui_Slider_Fill, _UI_SLIDER_PROPERTY_VALUE_WITH_ANIM, 20);
+        _ui_label_set_property(ui_Fill_Capacity_Number_1, _UI_LABEL_PROPERTY_TEXT, "3.8");
+        _ui_label_set_property(ui_Fill_Capacity_Number_2, _UI_LABEL_PROPERTY_TEXT, "3.8");
+    }
+}
 
 ///////////////////// SCREENS ////////////////////
 
@@ -557,5 +578,8 @@ void ui_init(void)
     lv_disp_set_theme(dispp, theme);
     ui_Main_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
+    lv_obj_add_event_cb(ui____initial_actions0, ui_event____initial_actions0, LV_EVENT_ALL, NULL);
+
+    lv_disp_load_scr(ui____initial_actions0);
     lv_disp_load_scr(ui_Main);
 }
