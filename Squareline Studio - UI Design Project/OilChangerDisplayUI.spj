@@ -19879,7 +19879,7 @@
               {
                 "nid": -1767849956,
                 "strtype": "OBJECT/Hidden",
-                "strval": "True",
+                "strval": "False",
                 "InheritedType": 2
               },
               {
@@ -29262,7 +29262,8 @@
                     "InheritedType": 11
                   }
                 ],
-                "saved_objtypeKey": "PANEL"
+                "saved_objtypeKey": "PANEL",
+                "tree_closed": true
               },
               {
                 "guid": "GUID89676373-669023S61150",
@@ -29915,6 +29916,7 @@
                       },
                       {
                         "nid": -437430736,
+                        "flags": 1048576,
                         "strtype": "BUTTON/Layout",
                         "InheritedType": 1
                       },
@@ -29933,6 +29935,7 @@
                       },
                       {
                         "nid": 279924985,
+                        "flags": 1048576,
                         "strtype": "OBJECT/Transform",
                         "InheritedType": 1
                       },
@@ -30384,7 +30387,7 @@
                           },
                           {
                             "nid": -1056537595,
-                            "strtype": "_custom/action",
+                            "strtype": "_event/action",
                             "strval": "CALL FUNCTION",
                             "childs": [
                               {
@@ -31542,7 +31545,7 @@
                           },
                           {
                             "nid": -1334541428,
-                            "strtype": "_custom/action",
+                            "strtype": "_event/action",
                             "strval": "CALL FUNCTION",
                             "childs": [
                               {
@@ -32701,7 +32704,7 @@
                           },
                           {
                             "nid": 163165909,
-                            "strtype": "_custom/action",
+                            "strtype": "_event/action",
                             "strval": "CALL FUNCTION",
                             "childs": [
                               {
@@ -43150,7 +43153,7 @@
               {
                 "nid": -2074529187,
                 "strtype": "OBJECT/Hidden",
-                "strval": "False",
+                "strval": "True",
                 "InheritedType": 2
               },
               {
@@ -44014,6 +44017,7 @@
           },
           {
             "nid": -1655888012,
+            "flags": 1048576,
             "strtype": "_event/action",
             "strval": "SLIDER_PROPERTY",
             "childs": [
@@ -44140,7 +44144,7 @@
               {
                 "nid": -1418058120,
                 "strtype": "LABEL_PROPERTY/Value",
-                "strval": "3.8",
+                "strval": "4.0",
                 "InheritedType": 10
               }
             ],
@@ -44185,7 +44189,7 @@
               {
                 "nid": -1152567527,
                 "strtype": "LABEL_PROPERTY/Value",
-                "strval": "3.8",
+                "strval": "4.0",
                 "InheritedType": 10
               }
             ],
@@ -45882,7 +45886,7 @@
     "theme_color2": 0,
     "uiExportFolderPath": "C:\\Users\\Josh\\Documents\\PlatformIO\\Projects\\Oil-Changer Display\\lib\\Squareline-UI",
     "projectExportFolderPath": "C:\\Users\\Josh\\Documents\\PlatformIO\\Projects\\Oil-Changer Display\\Squareline Studio - UI Design Project",
-    "backup_cnt": 427,
+    "backup_cnt": 448,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "CPP_FILE",

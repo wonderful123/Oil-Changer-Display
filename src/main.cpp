@@ -26,8 +26,8 @@ void logMemory() {
 
 void setup() {
   initializeLogger();
-  systemManager.initialize();
   displayManager.initialize();
+  systemManager.initialize();
 
   logMemory();
   Logger::info("[Main] Setup complete");

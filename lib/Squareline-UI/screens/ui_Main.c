@@ -381,7 +381,6 @@ void ui_Main_screen_init(void)
     lv_obj_set_x(ui_Group_Oil_Change_Data_Panel, 0);
     lv_obj_set_y(ui_Group_Oil_Change_Data_Panel, -10);
     lv_obj_set_align(ui_Group_Oil_Change_Data_Panel, LV_ALIGN_RIGHT_MID);
-    lv_obj_add_flag(ui_Group_Oil_Change_Data_Panel, LV_OBJ_FLAG_HIDDEN);     /// Flags
     lv_obj_clear_flag(ui_Group_Oil_Change_Data_Panel, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_bg_color(ui_Group_Oil_Change_Data_Panel, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_Group_Oil_Change_Data_Panel, 0, LV_PART_MAIN | LV_STATE_DEFAULT);
@@ -935,6 +934,7 @@ void ui_Main_screen_init(void)
     lv_obj_set_x(ui_Group_Pin_Code, 0);
     lv_obj_set_y(ui_Group_Pin_Code, -10);
     lv_obj_set_align(ui_Group_Pin_Code, LV_ALIGN_RIGHT_MID);
+    lv_obj_add_flag(ui_Group_Pin_Code, LV_OBJ_FLAG_HIDDEN);     /// Flags
     lv_obj_clear_flag(ui_Group_Pin_Code, LV_OBJ_FLAG_CLICKABLE | LV_OBJ_FLAG_SCROLLABLE);      /// Flags
     lv_obj_set_style_bg_color(ui_Group_Pin_Code, lv_color_hex(0xFFFFFF), LV_PART_MAIN | LV_STATE_DEFAULT);
     lv_obj_set_style_bg_opa(ui_Group_Pin_Code, 0, LV_PART_MAIN | LV_STATE_DEFAULT);

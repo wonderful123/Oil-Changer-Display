@@ -558,8 +558,8 @@ void ui_event____initial_actions0(lv_event_t * e)
     if(event_code == LV_EVENT_SCREEN_LOAD_START) {
         _ui_slider_set_property(ui_Slider_Extract, _UI_SLIDER_PROPERTY_VALUE_WITH_ANIM, 1000);
         _ui_slider_set_property(ui_Slider_Fill, _UI_SLIDER_PROPERTY_VALUE_WITH_ANIM, 0);
-        _ui_label_set_property(ui_Fill_Capacity_Number_1, _UI_LABEL_PROPERTY_TEXT, "3.8");
-        _ui_label_set_property(ui_Fill_Capacity_Number_2, _UI_LABEL_PROPERTY_TEXT, "3.8");
+        _ui_label_set_property(ui_Fill_Capacity_Number_1, _UI_LABEL_PROPERTY_TEXT, "4.0");
+        _ui_label_set_property(ui_Fill_Capacity_Number_2, _UI_LABEL_PROPERTY_TEXT, "4.0");
     }
 }
 
