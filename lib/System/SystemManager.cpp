@@ -9,9 +9,11 @@
 #include "Logger.h"
 #include "MessageData.h"
 
-void SystemManager::initialize() {
-  initializeCommunicationManager();
-}
+SystemManager::SystemManager()
+    : _dataTracker(std::make_shared<DataTracker>()),
+      _uiManager(new UIManager(_dataTracker)) {}
+
+void SystemManager::initialize() { initializeCommunicationManager(); }
 
 void SystemManager::initializeCommunicationManager() {
   _communicationManager->initialize();
@@ -22,8 +24,6 @@ void SystemManager::update() {
   if (!messageData.empty()) {
     processMessageData(messageData);
   }
-
-  updateUI();
 }
 
 void SystemManager::processMessageData(MessageData parsedData) {
@@ -38,8 +38,6 @@ void SystemManager::processMessageData(MessageData parsedData) {
     updateSystemData(parsedData);
   }
 }
-
-void SystemManager::updateUI() { _uiManager->updateUI(); }
 
 bool SystemManager::isCommandMessage(const MessageData& data) {
   return data.data().find("command") != data.data().end();
