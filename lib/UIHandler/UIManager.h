@@ -12,6 +12,7 @@ class UIManager {
  public:
   explicit UIManager(std::shared_ptr<DataTracker> dataTracker);
   void setupUI();
+  void initialize();
 
  private:
   void onGenericFloatDataChange(const std::string& dataKey,

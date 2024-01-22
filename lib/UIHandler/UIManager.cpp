@@ -6,11 +6,20 @@
 #include <sstream>  // For std::stringstream
 
 #include "DataTracker.h"
+#include "Logger.h"
 
 UIManager::UIManager(std::shared_ptr<DataTracker> dataTracker)
     : _dataTracker(dataTracker) {
   setupUI();
+}
 
+// Maps all elements defined the UIInitializer
+void UIManager::setupUI() {
+  UIInitializer initializer;
+  initializer.initialize(uiElements);
+}
+
+void UIManager::initialize() {
   // Subscribe to DataTracker changes
   subscribeToDataTracker("FillCapacity", &UIManager::onFillCapacityChange);
   subscribeToDataTracker("AmountFilled", &UIManager::onFillExtractAmountChange);
@@ -22,12 +31,6 @@ UIManager::UIManager(std::shared_ptr<DataTracker> dataTracker)
   subscribeToDataTracker("FlowRateExtract",
                          &UIManager::onFlowRateExtractChange);
   subscribeToDataTracker("FlowRateFill", &UIManager::onFlowRateFillChange);
-}
-
-// Maps all elements defined the UIInitializer
-void UIManager::setupUI() {
-  UIInitializer initializer;
-  initializer.initialize(uiElements);
 }
 
 void UIManager::registerElement(const std::string& dataKey, lv_obj_t* element) {
@@ -47,7 +50,7 @@ void UIManager::onGenericFloatDataChange(const std::string& dataKey,
 }
 
 void UIManager::onFillCapacityChange(const std::string& key,
-                                      const std::string& value) {
+                                     const std::string& value) {
   lv_label_set_text(uiElements["ui_Fill_Capacity_Number_1"],
                     floatToString(value).c_str());
   lv_label_set_text(uiElements["ui_Fill_Capacity_Number_2"],
@@ -55,7 +58,7 @@ void UIManager::onFillCapacityChange(const std::string& key,
 }
 
 void UIManager::onFlowRateExtractChange(const std::string& key,
-                                         const std::string& value) {
+                                        const std::string& value) {
   // Assuming the same UI element is updated for both extract and fill flow
   // rates
   auto formattedValue = floatToString(value);
@@ -65,8 +68,8 @@ void UIManager::onFlowRateExtractChange(const std::string& key,
 }
 
 void UIManager::onFlowRateFillChange(const std::string& key,
-                                      const std::string& value) {
-  // Similar handling as for onFlowRateExtractChanged
+                                     const std::string& value) {
+  // Similar handling as for onFlowRateExtractChange
   auto formattedValue = floatToString(value);
   if (uiElements.find("FlowRateNumber") != uiElements.end()) {
     lv_label_set_text(uiElements["FlowRateNumber"], formattedValue.c_str());
@@ -92,14 +95,27 @@ int UIManager::calculateSliderValue(const std::string& fillAmountStr,
   double percentage = (fillAmount / fillCapacity) * 100.0;
   return static_cast<int>(percentage * 10);  // Adjusting to 0-1000 range
 }
+#include <cerrno>
+#include <iostream>
+
+#include "Logger.h"
 
 void UIManager::subscribeToDataTracker(
     const std::string& key,
     void (UIManager::*memberFunction)(const std::string&, const std::string&)) {
-  _dataTracker->subscribe(
-      key, [this, memberFunction](const std::string& k, const std::string& v) {
-        (this->*memberFunction)(k, v);
-      });
+  _dataTracker->subscribe(key, [this, memberFunction](const std::string& k,
+                                                      const std::string& v) {
+    std::cout
+        << "UIManager::subscribeToDataTracker - Notification received for key: "
+        << k << std::endl;
+    if (this) {
+      std::cout << "UIManager instance is valid, calling member function"
+                << std::endl;
+      (this->*memberFunction)(k, v);
+    } else {
+      std::cerr << "UIManager instance is no longer valid" << std::endl;
+    }
+  });
 }
 
 void UIManager::subscribeToDataTracker(
@@ -112,8 +128,7 @@ void UIManager::subscribeToDataTracker(
       });
 }
 
-std::string UIManager::floatToString(const std::string& input,
-                                            int precision) {
+std::string UIManager::floatToString(const std::string& input, int precision) {
   std::stringstream stream;
   // Convert string to float and format it
   float number = std::stof(input);
