@@ -13,7 +13,7 @@ void CommunicationManager::initialize() {
   //_interface = new ESP32Serial(serialConfig);
   //_interface = &Serial;
   //_interface = &HardwareSerial(0);
-  _interface = std::make_shared<ESP32Serial>(serialConfig);
+  // _interface = std::make_shared<ESP32Serial>(serialConfig);
 
   // TODO: crash when trying to initalize interface
 }
@@ -28,8 +28,6 @@ MessageData CommunicationManager::processMessage() {
       receivedMessage += static_cast<char>(byteRead);
     }
   }
-
-  LOG_DEBUG(receivedMessage);
 
   return parseMessage(receivedMessage);
 }
