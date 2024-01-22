@@ -110,7 +110,7 @@ std::string Logger::formatMessage(Level level, const std::string &message,
   // Include filename if provided
   if (!fileName.empty()) {
     std::string shortFileName = extractFileName(fileName);
-    formattedMessage << "[" << shortFileName << "]";
+    formattedMessage << " [" << shortFileName << "]";
   }
 
 #ifdef LOGGER_USE_COLOR
