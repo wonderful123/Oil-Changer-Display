@@ -1,6 +1,9 @@
+// DebugUtils.cpp
 #include "DebugUtils.h"
 
 #if defined(ESP32)
+
+#include "Esp.h"
 
 void DebugUtils::logMemoryUsage() {
   Logger::debug("Total heap: " + std::to_string(ESP.getHeapSize()), __FILE__);
