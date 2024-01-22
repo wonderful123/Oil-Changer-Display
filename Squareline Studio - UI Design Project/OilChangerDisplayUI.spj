@@ -1258,7 +1258,7 @@
               {
                 "nid": 1819402465,
                 "strtype": "OBJECT/Name",
-                "strval": "Unit Litres",
+                "strval": "Label Fill Capacity Unit",
                 "InheritedType": 10
               },
               {
@@ -1796,7 +1796,7 @@
               {
                 "nid": -417623257,
                 "strtype": "SLIDER/Value",
-                "integer": 735,
+                "integer": 1000,
                 "InheritedType": 6
               },
               {
@@ -1893,6 +1893,77 @@
                 "strtype": "SLIDER/Style_knob",
                 "strval": "lv.PART.KNOB, Rectangle, Pad",
                 "InheritedType": 11
+              },
+              {
+                "disabled": false,
+                "nid": -237167690,
+                "strtype": "_event/EventHandler",
+                "strval": "VALUE_CHANGED",
+                "childs": [
+                  {
+                    "nid": -493248362,
+                    "strtype": "_custom/name",
+                    "strval": "Event2",
+                    "InheritedType": 10
+                  },
+                  {
+                    "nid": -1324889660,
+                    "strtype": "_custom/condition_C",
+                    "strval": "",
+                    "InheritedType": 10
+                  },
+                  {
+                    "nid": 1713254194,
+                    "strtype": "_custom/condition_P",
+                    "strval": "",
+                    "InheritedType": 10
+                  },
+                  {
+                    "nid": 1702905912,
+                    "strtype": "_event/action",
+                    "strval": "SLIDER_PROPERTY",
+                    "childs": [
+                      {
+                        "nid": 623824147,
+                        "strtype": "SLIDER_PROPERTY/Name",
+                        "strval": "SLIDER_PROPERTY",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": 155378696,
+                        "strtype": "SLIDER_PROPERTY/Call",
+                        "strval": "SetSliderProperty(<{Target}>, '<{Property}>', <{Value}>)",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": -782557428,
+                        "strtype": "SLIDER_PROPERTY/CallC",
+                        "strval": "_ui_slider_set_property(<{Target}>, _UI_SLIDER_PROPERTY_<{Property}>, <{Value}>);",
+                        "InheritedType": 10
+                      },
+                      {
+                        "nid": -1466308886,
+                        "strtype": "SLIDER_PROPERTY/Target",
+                        "strval": "GUID12477675-997502S1091150",
+                        "InheritedType": 9
+                      },
+                      {
+                        "nid": 504803968,
+                        "strtype": "SLIDER_PROPERTY/Property",
+                        "strval": "Value_with_anim",
+                        "InheritedType": 3
+                      },
+                      {
+                        "nid": -2079368390,
+                        "strtype": "SLIDER_PROPERTY/Value",
+                        "strval": "",
+                        "InheritedType": 10
+                      }
+                    ],
+                    "InheritedType": 10
+                  }
+                ],
+                "InheritedType": 4
               }
             ],
             "saved_objtypeKey": "SLIDER",
@@ -2131,7 +2202,6 @@
               {
                 "nid": 1378321655,
                 "strtype": "SLIDER/Value",
-                "integer": 500,
                 "InheritedType": 6
               },
               {
@@ -2245,7 +2315,7 @@
                   {
                     "nid": -330983622,
                     "strtype": "OBJECT/Name",
-                    "strval": "Label Number1",
+                    "strval": "Label Extract Percent 1",
                     "InheritedType": 10
                   },
                   {
@@ -2557,7 +2627,7 @@
                   {
                     "nid": -418048453,
                     "strtype": "OBJECT/Name",
-                    "strval": "Label Number2",
+                    "strval": "Label Extract Percent 2",
                     "InheritedType": 10
                   },
                   {
@@ -2869,7 +2939,7 @@
                   {
                     "nid": 267592783,
                     "strtype": "OBJECT/Name",
-                    "strval": "Label Number3",
+                    "strval": "Label Extract Percent 3",
                     "InheritedType": 10
                   },
                   {
@@ -3181,7 +3251,7 @@
                   {
                     "nid": 839967791,
                     "strtype": "OBJECT/Name",
-                    "strval": "Label Number4",
+                    "strval": "Label Extract Percent 4",
                     "InheritedType": 10
                   },
                   {
@@ -3493,7 +3563,7 @@
                   {
                     "nid": 120528987,
                     "strtype": "OBJECT/Name",
-                    "strval": "Label Number5",
+                    "strval": "Label Extract Percent 5",
                     "InheritedType": 10
                   },
                   {
@@ -3803,7 +3873,7 @@
               {
                 "nid": -410985598,
                 "strtype": "OBJECT/Name",
-                "strval": "Group Battery Percent",
+                "strval": "Group Extract Percent",
                 "InheritedType": 10
               },
               {
@@ -4082,7 +4152,8 @@
                 "InheritedType": 11
               }
             ],
-            "saved_objtypeKey": "PANEL"
+            "saved_objtypeKey": "PANEL",
+            "tree_closed": true
           },
           {
             "guid": "GUID99951023-991815S2791150",
@@ -4666,7 +4737,7 @@
                   {
                     "nid": -1131920168,
                     "strtype": "LABEL/Text",
-                    "strval": "PM",
+                    "strval": "AM",
                     "InheritedType": 10
                   },
                   {
@@ -4978,7 +5049,7 @@
                   {
                     "nid": 311571115,
                     "strtype": "LABEL/Text",
-                    "strval": "+24.7",
+                    "strval": "+32.7",
                     "InheritedType": 10
                   },
                   {
@@ -5344,7 +5415,7 @@
                   {
                     "nid": -887964425,
                     "strtype": "OBJECT/Name",
-                    "strval": "Label Oil Change",
+                    "strval": "Label Top Left Title",
                     "InheritedType": 10
                   },
                   {
@@ -5375,7 +5446,7 @@
                     "flags": 17,
                     "strtype": "OBJECT/Position",
                     "intarray": [
-                      -8,
+                      -5,
                       0
                     ],
                     "InheritedType": 7
@@ -5946,7 +6017,8 @@
                 "InheritedType": 11
               }
             ],
-            "saved_objtypeKey": "PANEL"
+            "saved_objtypeKey": "PANEL",
+            "tree_closed": true
           },
           {
             "guid": "GUID71594633-993781S4451150",
@@ -5991,8 +6063,8 @@
                     "flags": 17,
                     "strtype": "OBJECT/Position",
                     "intarray": [
-                      13,
-                      6
+                      7,
+                      7
                     ],
                     "InheritedType": 7
                   },
@@ -6254,7 +6326,7 @@
                   {
                     "nid": -565766263,
                     "strtype": "OBJECT/Name",
-                    "strval": "Label Battery Number",
+                    "strval": "Battery Voltage Number",
                     "InheritedType": 10
                   },
                   {
@@ -6285,7 +6357,7 @@
                     "flags": 17,
                     "strtype": "OBJECT/Position",
                     "intarray": [
-                      -424,
+                      -418,
                       7
                     ],
                     "InheritedType": 7
@@ -6512,7 +6584,7 @@
                   {
                     "nid": 964089548,
                     "strtype": "LABEL/Text",
-                    "strval": "100",
+                    "strval": "28.6",
                     "InheritedType": 10
                   },
                   {
@@ -6572,7 +6644,7 @@
                   {
                     "nid": -1929129016,
                     "strtype": "OBJECT/Name",
-                    "strval": "Label Battery Percent",
+                    "strval": "Unit Label Battery Voltage",
                     "InheritedType": 10
                   },
                   {
@@ -6603,8 +6675,8 @@
                     "flags": 17,
                     "strtype": "OBJECT/Position",
                     "intarray": [
-                      58,
-                      4
+                      68,
+                      5
                     ],
                     "InheritedType": 7
                   },
@@ -6830,7 +6902,7 @@
                   {
                     "nid": 1850558204,
                     "strtype": "LABEL/Text",
-                    "strval": "%",
+                    "strval": "V",
                     "InheritedType": 10
                   },
                   {
@@ -7137,7 +7209,6 @@
                           },
                           {
                             "nid": 1442538674,
-                            "flags": 1048576,
                             "strtype": "IMAGE/Image",
                             "InheritedType": 1
                           },
@@ -7325,7 +7396,6 @@
                               },
                               {
                                 "nid": 916047843,
-                                "flags": 1048576,
                                 "strtype": "_event/action",
                                 "strval": "MODIFY STATE",
                                 "childs": [
@@ -7743,7 +7813,8 @@
                             "InheritedType": 4
                           }
                         ],
-                        "saved_objtypeKey": "IMAGE"
+                        "saved_objtypeKey": "IMAGE",
+                        "tree_closed": true
                       },
                       {
                         "guid": "GUID23974441-790696S4761150",
@@ -10099,7 +10170,6 @@
                           {
                             "disabled": false,
                             "nid": 158901892,
-                            "flags": 1048576,
                             "strtype": "_event/EventHandler",
                             "strval": "CLICKED",
                             "childs": [
@@ -10308,7 +10378,6 @@
                           {
                             "disabled": false,
                             "nid": 809674617,
-                            "flags": 1048576,
                             "strtype": "_event/EventHandler",
                             "strval": "CLICKED",
                             "childs": [
@@ -11215,7 +11284,7 @@
                   {
                     "nid": 1483790476,
                     "strtype": "OBJECT/Name",
-                    "strval": "Button Group",
+                    "strval": "Nav Button Group",
                     "InheritedType": 10
                   },
                   {
@@ -11802,7 +11871,7 @@
                       {
                         "nid": -2000847195,
                         "strtype": "OBJECT/Name",
-                        "strval": "Title BG",
+                        "strval": "Underline Title Oil Change",
                         "InheritedType": 10
                       },
                       {
@@ -12086,7 +12155,8 @@
                         "InheritedType": 11
                       }
                     ],
-                    "saved_objtypeKey": "IMAGE"
+                    "saved_objtypeKey": "IMAGE",
+                    "tree_closed": true
                   },
                   {
                     "guid": "GUID22262364-794404S1861150",
@@ -12096,7 +12166,7 @@
                       {
                         "nid": 2007539291,
                         "strtype": "OBJECT/Name",
-                        "strval": "Label Driving Information",
+                        "strval": "Label Oil Change Information",
                         "InheritedType": 10
                       },
                       {
@@ -12406,7 +12476,7 @@
                   {
                     "nid": -872817163,
                     "strtype": "OBJECT/Name",
-                    "strval": "Group Title",
+                    "strval": "Group Info Panel Title",
                     "InheritedType": 10
                   },
                   {
@@ -12686,7 +12756,8 @@
                     "InheritedType": 11
                   }
                 ],
-                "saved_objtypeKey": "PANEL"
+                "saved_objtypeKey": "PANEL",
+                "tree_closed": true
               },
               {
                 "guid": "GUID96128117-794405S7531150",
@@ -12704,7 +12775,7 @@
                           {
                             "nid": 2074939654,
                             "strtype": "OBJECT/Name",
-                            "strval": "LabeL Battery",
+                            "strval": "Label Flow Rate",
                             "InheritedType": 10
                           },
                           {
@@ -12962,7 +13033,7 @@
                           {
                             "nid": -749761206,
                             "strtype": "LABEL/Text",
-                            "strval": "Battery",
+                            "strval": "Flow Rate",
                             "InheritedType": 10
                           },
                           {
@@ -13017,7 +13088,7 @@
                           {
                             "nid": -1394049876,
                             "strtype": "OBJECT/Name",
-                            "strval": "Label ODO Number",
+                            "strval": "Flow Rate Number",
                             "InheritedType": 10
                           },
                           {
@@ -13275,7 +13346,7 @@
                           {
                             "nid": -2022471905,
                             "strtype": "LABEL/Text",
-                            "strval": "28.6",
+                            "strval": "0.0",
                             "InheritedType": 10
                           },
                           {
@@ -13329,7 +13400,7 @@
                           {
                             "nid": -501954141,
                             "strtype": "OBJECT/Name",
-                            "strval": "Label volts",
+                            "strval": "Unit Label Flow Rate",
                             "InheritedType": 10
                           },
                           {
@@ -13587,7 +13658,7 @@
                           {
                             "nid": 789385725,
                             "strtype": "LABEL/Text",
-                            "strval": "V",
+                            "strval": "L",
                             "InheritedType": 10
                           },
                           {
@@ -13640,7 +13711,7 @@
                       {
                         "nid": -1886612266,
                         "strtype": "OBJECT/Name",
-                        "strval": "Group Voltage",
+                        "strval": "Group Battery Voltage",
                         "InheritedType": 10
                       },
                       {
@@ -13946,7 +14017,7 @@
                           {
                             "nid": 1650600124,
                             "strtype": "OBJECT/Name",
-                            "strval": "Label Oil",
+                            "strval": "Label Oil Temp",
                             "InheritedType": 10
                           },
                           {
@@ -14517,7 +14588,7 @@
                           {
                             "nid": 2055985978,
                             "strtype": "LABEL/Text",
-                            "strval": "18.6",
+                            "strval": "74.8",
                             "InheritedType": 10
                           },
                           {
@@ -14571,7 +14642,7 @@
                           {
                             "nid": -1728000279,
                             "strtype": "OBJECT/Name",
-                            "strval": "Label unit",
+                            "strval": "Label Unit Celcius",
                             "InheritedType": 10
                           },
                           {
@@ -14882,7 +14953,7 @@
                       {
                         "nid": 1021645468,
                         "strtype": "OBJECT/Name",
-                        "strval": "Group Trip",
+                        "strval": "Group Oil Temp",
                         "InheritedType": 10
                       },
                       {
@@ -15500,7 +15571,7 @@
                           {
                             "nid": 1658340725,
                             "strtype": "OBJECT/Name",
-                            "strval": "Label Max Speed Number",
+                            "strval": "Amount Filled Number",
                             "InheritedType": 10
                           },
                           {
@@ -15812,7 +15883,7 @@
                           {
                             "nid": 549851593,
                             "strtype": "OBJECT/Name",
-                            "strval": "Label kmh2",
+                            "strval": "Unit Label Litres",
                             "InheritedType": 10
                           },
                           {
@@ -16122,7 +16193,7 @@
                       {
                         "nid": 139330751,
                         "strtype": "OBJECT/Name",
-                        "strval": "Group Max Speed",
+                        "strval": "Group Amount Filled",
                         "InheritedType": 10
                       },
                       {
@@ -16428,7 +16499,7 @@
                           {
                             "nid": -325348972,
                             "strtype": "OBJECT/Name",
-                            "strval": "Label AVG Speed",
+                            "strval": "Label Extracted",
                             "InheritedType": 10
                           },
                           {
@@ -16740,7 +16811,7 @@
                           {
                             "nid": -590206675,
                             "strtype": "OBJECT/Name",
-                            "strval": "Label AVG Speed Number",
+                            "strval": "Amount Extracted Number",
                             "InheritedType": 10
                           },
                           {
@@ -16998,7 +17069,7 @@
                           {
                             "nid": -1563248016,
                             "strtype": "LABEL/Text",
-                            "strval": "2.3",
+                            "strval": "0.0",
                             "InheritedType": 10
                           },
                           {
@@ -17052,7 +17123,7 @@
                           {
                             "nid": 548038352,
                             "strtype": "OBJECT/Name",
-                            "strval": "Label kmh3",
+                            "strval": "Unit Label Extracted Litres",
                             "InheritedType": 10
                           },
                           {
@@ -17362,7 +17433,7 @@
                       {
                         "nid": -2031154082,
                         "strtype": "OBJECT/Name",
-                        "strval": "Group AVG Speed",
+                        "strval": "Group Amount Extracted",
                         "InheritedType": 10
                       },
                       {
@@ -17980,7 +18051,7 @@
                           {
                             "nid": -722454783,
                             "strtype": "OBJECT/Name",
-                            "strval": "Label ETA Number",
+                            "strval": "ETA Time",
                             "InheritedType": 10
                           },
                           {
@@ -18238,7 +18309,7 @@
                           {
                             "nid": -933359952,
                             "strtype": "LABEL/Text",
-                            "strval": "01:20:45",
+                            "strval": "00:00",
                             "InheritedType": 10
                           },
                           {
@@ -18596,7 +18667,7 @@
                           {
                             "nid": -1749288165,
                             "strtype": "OBJECT/Name",
-                            "strval": "Label Time1",
+                            "strval": "Label Run Time",
                             "InheritedType": 10
                           },
                           {
@@ -18908,7 +18979,7 @@
                           {
                             "nid": 1553685630,
                             "strtype": "OBJECT/Name",
-                            "strval": "Label Arrival Time Number1",
+                            "strval": "Run Time",
                             "InheritedType": 10
                           },
                           {
@@ -19166,7 +19237,7 @@
                           {
                             "nid": -1691876623,
                             "strtype": "LABEL/Text",
-                            "strval": "00:05:36",
+                            "strval": "00:00",
                             "InheritedType": 10
                           },
                           {
@@ -19218,7 +19289,7 @@
                       {
                         "nid": 264136749,
                         "strtype": "OBJECT/Name",
-                        "strval": "Group Time",
+                        "strval": "Group Run Time",
                         "InheritedType": 10
                       },
                       {
@@ -19518,7 +19589,7 @@
                   {
                     "nid": -223516834,
                     "strtype": "OBJECT/Name",
-                    "strval": "Group Content",
+                    "strval": "Group Oil Change Info Content",
                     "InheritedType": 10
                   },
                   {
@@ -19818,7 +19889,7 @@
               {
                 "nid": 273535930,
                 "strtype": "OBJECT/Name",
-                "strval": "Group Driving",
+                "strval": "Group Oil Change Data Panel",
                 "InheritedType": 10
               },
               {
@@ -20720,7 +20791,7 @@
                   {
                     "nid": -667284100,
                     "strtype": "OBJECT/Name",
-                    "strval": "Group Title1",
+                    "strval": "Group Battery Information",
                     "InheritedType": 10
                   },
                   {
@@ -21001,8 +21072,7 @@
                     "InheritedType": 11
                   }
                 ],
-                "saved_objtypeKey": "PANEL",
-                "tree_closed": true
+                "saved_objtypeKey": "PANEL"
               },
               {
                 "guid": "GUID40367497-831536S7721150",
@@ -28069,8 +28139,7 @@
                     "InheritedType": 11
                   }
                 ],
-                "saved_objtypeKey": "PANEL",
-                "tree_closed": true
+                "saved_objtypeKey": "PANEL"
               }
             ],
             "locked": false,
@@ -43811,7 +43880,6 @@
               },
               {
                 "nid": -1479923925,
-                "flags": 1048576,
                 "strtype": "_event/action",
                 "strval": "PLAY ANIMATION",
                 "childs": [
@@ -43873,6 +43941,212 @@
         "strtype": "STARTEVENTS/Name",
         "strval": "___initial_actions0",
         "InheritedType": 10
+      },
+      {
+        "disabled": false,
+        "nid": 99070806,
+        "strtype": "_event/EventHandler",
+        "strval": "SCREEN_LOAD_START",
+        "childs": [
+          {
+            "nid": 1546975453,
+            "strtype": "_custom/name",
+            "strval": "Event1",
+            "InheritedType": 10
+          },
+          {
+            "nid": -1407233466,
+            "strtype": "_custom/condition_C",
+            "strval": "",
+            "InheritedType": 10
+          },
+          {
+            "nid": -1638569110,
+            "strtype": "_custom/condition_P",
+            "strval": "",
+            "InheritedType": 10
+          },
+          {
+            "nid": -1655888012,
+            "strtype": "_event/action",
+            "strval": "SLIDER_PROPERTY",
+            "childs": [
+              {
+                "nid": -1059027923,
+                "strtype": "SLIDER_PROPERTY/Name",
+                "strval": "SLIDER_PROPERTY",
+                "InheritedType": 10
+              },
+              {
+                "nid": -630527683,
+                "strtype": "SLIDER_PROPERTY/Call",
+                "strval": "SetSliderProperty(<{Target}>, '<{Property}>', <{Value}>)",
+                "InheritedType": 10
+              },
+              {
+                "nid": 1383340442,
+                "strtype": "SLIDER_PROPERTY/CallC",
+                "strval": "_ui_slider_set_property(<{Target}>, _UI_SLIDER_PROPERTY_<{Property}>, <{Value}>);",
+                "InheritedType": 10
+              },
+              {
+                "nid": 1487909050,
+                "strtype": "SLIDER_PROPERTY/Target",
+                "strval": "GUID12477675-997502S1091150",
+                "InheritedType": 9
+              },
+              {
+                "nid": 176940294,
+                "strtype": "SLIDER_PROPERTY/Property",
+                "strval": "Value_with_anim",
+                "InheritedType": 3
+              },
+              {
+                "nid": 78310422,
+                "strtype": "SLIDER_PROPERTY/Value",
+                "strval": "1000",
+                "InheritedType": 10
+              }
+            ],
+            "InheritedType": 10
+          },
+          {
+            "nid": -705103573,
+            "flags": 1048576,
+            "strtype": "_event/action",
+            "strval": "SLIDER_PROPERTY",
+            "childs": [
+              {
+                "nid": -2015580932,
+                "strtype": "SLIDER_PROPERTY/Name",
+                "strval": "SLIDER_PROPERTY",
+                "InheritedType": 10
+              },
+              {
+                "nid": 465864728,
+                "strtype": "SLIDER_PROPERTY/Call",
+                "strval": "SetSliderProperty(<{Target}>, '<{Property}>', <{Value}>)",
+                "InheritedType": 10
+              },
+              {
+                "nid": -896955372,
+                "strtype": "SLIDER_PROPERTY/CallC",
+                "strval": "_ui_slider_set_property(<{Target}>, _UI_SLIDER_PROPERTY_<{Property}>, <{Value}>);",
+                "InheritedType": 10
+              },
+              {
+                "nid": 521385045,
+                "strtype": "SLIDER_PROPERTY/Target",
+                "strval": "GUID80201865-998609S9031150",
+                "InheritedType": 9
+              },
+              {
+                "nid": 50246698,
+                "strtype": "SLIDER_PROPERTY/Property",
+                "strval": "Value_with_anim",
+                "InheritedType": 3
+              },
+              {
+                "nid": 307607282,
+                "strtype": "SLIDER_PROPERTY/Value",
+                "strval": "0",
+                "InheritedType": 10
+              }
+            ],
+            "InheritedType": 10
+          },
+          {
+            "nid": -2077192926,
+            "flags": 1048576,
+            "strtype": "_event/action",
+            "strval": "LABEL_PROPERTY",
+            "childs": [
+              {
+                "nid": -1410024204,
+                "strtype": "LABEL_PROPERTY/Name",
+                "strval": "LABEL_PROPERTY",
+                "InheritedType": 10
+              },
+              {
+                "nid": -486888396,
+                "strtype": "LABEL_PROPERTY/Call",
+                "strval": "SetLabelProperty(<{Target}>, '<{Property}>', '<{Value}>')",
+                "InheritedType": 10
+              },
+              {
+                "nid": -1449224024,
+                "strtype": "LABEL_PROPERTY/CallC",
+                "strval": "_ui_label_set_property(<{Target}>, _UI_LABEL_PROPERTY_<{Property}>, \"<{Value}>\");",
+                "InheritedType": 10
+              },
+              {
+                "nid": 457233259,
+                "strtype": "LABEL_PROPERTY/Target",
+                "strval": "GUID47696782-991311S2011150",
+                "InheritedType": 9
+              },
+              {
+                "nid": 1138004538,
+                "strtype": "LABEL_PROPERTY/Property",
+                "strval": "Text",
+                "InheritedType": 3
+              },
+              {
+                "nid": -1418058120,
+                "strtype": "LABEL_PROPERTY/Value",
+                "strval": "3.8",
+                "InheritedType": 10
+              }
+            ],
+            "InheritedType": 10
+          },
+          {
+            "nid": 482442954,
+            "flags": 1048576,
+            "strtype": "_event/action",
+            "strval": "LABEL_PROPERTY",
+            "childs": [
+              {
+                "nid": 1596253623,
+                "strtype": "LABEL_PROPERTY/Name",
+                "strval": "LABEL_PROPERTY",
+                "InheritedType": 10
+              },
+              {
+                "nid": -168351358,
+                "strtype": "LABEL_PROPERTY/Call",
+                "strval": "SetLabelProperty(<{Target}>, '<{Property}>', '<{Value}>')",
+                "InheritedType": 10
+              },
+              {
+                "nid": 1999851424,
+                "strtype": "LABEL_PROPERTY/CallC",
+                "strval": "_ui_label_set_property(<{Target}>, _UI_LABEL_PROPERTY_<{Property}>, \"<{Value}>\");",
+                "InheritedType": 10
+              },
+              {
+                "nid": 691572434,
+                "strtype": "LABEL_PROPERTY/Target",
+                "strval": "GUID70658507-991814S3581150",
+                "InheritedType": 9
+              },
+              {
+                "nid": -1914970194,
+                "strtype": "LABEL_PROPERTY/Property",
+                "strval": "Text",
+                "InheritedType": 3
+              },
+              {
+                "nid": -1152567527,
+                "strtype": "LABEL_PROPERTY/Value",
+                "strval": "3.8",
+                "InheritedType": 10
+              }
+            ],
+            "InheritedType": 10
+          }
+        ],
+        "InheritedType": 4
       }
     ],
     "saved_objtypeKey": "STARTEVENTS"
@@ -45542,9 +45816,9 @@
     "offset_y": 0,
     "shape": "RECTANGLE",
     "multilang": "DISABLE",
-    "description": "",
-    "board": "Eclipse with SDL for development on PC",
-    "board_version": "v1.0.2",
+    "description": "Oil-Changer Display UI",
+    "board": "Arduino with TFT_eSPI",
+    "board_version": "v1.1.1",
     "editor_version": "1.3.4",
     "image": "",
     "force_export_images": false,
@@ -45554,12 +45828,12 @@
     "theme_dark": false,
     "theme_color1": 5,
     "theme_color2": 0,
-    "uiExportFolderPath": "C:\\Users\\Josh\\Documents\\PlatformIO\\Projects\\ESP32-S3-4.3inch Display\\UIDesign\\export",
-    "projectExportFolderPath": "C:\\Users\\Josh\\Documents\\PlatformIO\\Projects\\ESP32-S3-4.3inch Display\\lib\\UI",
-    "backup_cnt": 69,
+    "uiExportFolderPath": "C:\\Users\\Josh\\Documents\\PlatformIO\\Projects\\Oil-Changer Display\\include\\Squareline-UI",
+    "projectExportFolderPath": "C:\\Users\\Josh\\Documents\\PlatformIO\\Projects\\Oil-Changer Display\\Squareline Studio - UI Design Project",
+    "backup_cnt": 418,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
-    "callfuncsexport": "C_FILE",
+    "callfuncsexport": "CPP_FILE",
     "lvgl_include_path": "",
     "BitDepth": 16,
     "Name": "ebike_demo_272"
