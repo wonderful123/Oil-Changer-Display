@@ -58,18 +58,13 @@ void ESP32Serial::initializeSerial() {
 
   if (_rxPin != -1 && _txPin != -1) {
     //_serial->begin(115200);
-    Logger::info("NO BEGIN");
-    //_serial->begin(_baudRate, SERIAL_8N1, _rxPin, _txPin);
+    LOG_DEBUG("[Serial] BEGIN");
+    _serial->begin(_baudRate, SERIAL_8N1, _rxPin, _txPin);
+    LOG_DEBUG("Begun");
   } else {
     // Handle error if pins are not set
     Logger::error("[ESP32Serial] Pins are incorrect");
   }
-
-  log_d("Total heap: %d", ESP.getHeapSize());
-  log_d("Free heap: %d", ESP.getFreeHeap());
-  log_d("Total PSRAM: %d", ESP.getPsramSize());
-  log_d("Free PSRAM: %d", ESP.getFreePsram());
-  log_d("Used PSRAM: %d", ESP.getPsramSize() - ESP.getFreePsram());
 }
 
 void ESP32Serial::end() { _serial->end(); }
