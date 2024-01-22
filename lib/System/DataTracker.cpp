@@ -3,6 +3,7 @@
 
 #include <algorithm>
 
+#include "Logger.h"
 #include "MessageData.h"
 
 DataTracker::DataTracker()
@@ -44,6 +45,7 @@ std::string DataTracker::getData(const std::string& key) const {
 
 void DataTracker::updateMessageData(const MessageData& messageData) {
   for (const auto& keyValue : messageData.data()) {
+    LOG_DEBUG(keyValue.first);
     setData(keyValue.first, keyValue.second);
   }
 }
@@ -57,9 +59,13 @@ void DataTracker::unsubscribe(const std::string& key,
   auto it = observers.find(key);
   if (it != observers.end()) {
     auto& obsList = it->second;
-    // Since we cannot directly compare std::function objects for equality,
-    // consider another mechanism for identifying and removing observers.
-    // For example, modify the observer registration to include an ID.
+    obsList.erase(
+        std::remove_if(obsList.begin(), obsList.end(),
+                       [&observer](const ObserverFunction& existingObserver) {
+                         // Compare observer function address
+                         return &observer == &existingObserver;
+                       }),
+        obsList.end());
   }
 }
 
