@@ -48,7 +48,7 @@ class SystemManager {
 
  private:
   std::unique_ptr<CommunicationManager> _communicationManager;
-  std::unique_ptr<UIManager> _uiManager;
+  std::shared_ptr<UIManager> _uiManager;
   std::unique_ptr<EventDispatcher> _eventDispatcher;
   std::unique_ptr<CommandHandler> _commandHandler;
   std::shared_ptr<DataTracker> _dataTracker;

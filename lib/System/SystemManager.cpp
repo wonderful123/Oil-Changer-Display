@@ -10,10 +10,14 @@
 #include "MessageData.h"
 
 SystemManager::SystemManager()
-    : _dataTracker(std::make_shared<DataTracker>()),
-      _uiManager(new UIManager(_dataTracker)) {}
+    : _dataTracker(std::make_shared<DataTracker>()) {}
 
-void SystemManager::initialize() { initializeCommunicationManager(); }
+void SystemManager::initialize() {
+  initializeCommunicationManager();
+  _uiManager = std::make_shared<UIManager>(_dataTracker);
+  if (_uiManager == nullptr) LOG_DEBUG("DATATRACKER NULL"); else LOG_DEBUG("DATATRACKER NOT NULL");
+  _uiManager->initialize();
+}
 
 void SystemManager::initializeCommunicationManager() {
   _communicationManager->initialize();
