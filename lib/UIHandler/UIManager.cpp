@@ -31,11 +31,12 @@ void UIManager::onFillCapacityChanged(const std::string& key,
 
 void UIManager::onAmountChanged(const std::string& key,
                                 const std::string& value) {
-  // Calculate the slider values as a percentage
+  // Calculate the slider values as a percentage (out of 1000 as set in
+  // squareline for the range)
   float fillCapacity = _dataTracker->getFillCapacity();
   float amount = std::stof(value);
   int sliderValue = (fillCapacity != 0.0f)
-                        ? static_cast<int>((amount / fillCapacity) * 100)
+                        ? static_cast<int>((amount / fillCapacity) * 1000)
                         : 0;
 
   if (key == "AmountFilled") {
