@@ -10,19 +10,26 @@
 #include "MessageParser.h"
 
 void CommunicationManager::initialize() {
-  _interface = HardwareSerial(0);
-  //_interface = Serial;
+  //_interface = new ESP32Serial(serialConfig);
+  //_interface = &Serial;
+  //_interface = &HardwareSerial(0);
+  _interface = std::make_shared<ESP32Serial>(serialConfig);
+
+  // TODO: crash when trying to initalize interface
 }
 
 MessageData CommunicationManager::processMessage() {
   std::string receivedMessage;
 
-  while (_interface.available()) {
-    int byteRead = _interface.read();
+  // TODO: Serial is hardcoded here due to crashes
+  while (Serial.available()) {
+    int byteRead = Serial.read();
     if (byteRead != -1) {  // Check if a byte is available
       receivedMessage += static_cast<char>(byteRead);
     }
   }
+
+  LOG_DEBUG(receivedMessage);
 
   return parseMessage(receivedMessage);
 }
