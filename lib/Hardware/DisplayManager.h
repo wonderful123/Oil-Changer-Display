@@ -7,7 +7,7 @@
 
 #include <memory>
 
-#include "Squareline-UI/ui.h"
+#include "ui.h"
 
 // Forward declarations
 class TouchScreenManager;

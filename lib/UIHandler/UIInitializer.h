@@ -4,7 +4,7 @@
 #include <map>
 #include <string>
 
-#include "Squareline-UI/ui.h"
+#include "ui.h"
 
 // Forward declaration of global UI objects
 extern lv_obj_t *ui_Slider_Extract;
