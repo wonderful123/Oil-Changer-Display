@@ -1,12 +1,18 @@
 // UIManager.h
 #pragma once
 
+#include <memory>
+
+#include "DataTracker.h"
+
 class UIManager {
  public:
-  UIManager();
-  void updateUI();
-  // Other necessary methods
+  UIManager(std::shared_ptr<DataTracker> dataTracker);
+
+  // Observer methods
+  void onFillCapacityChanged(const std::string& key, const std::string& value);
+  void onAmountChanged(const std::string& key, const std::string& value);
 
  private:
-  // Internal data structures and methods
+  std::shared_ptr<DataTracker> _dataTracker;
 };
