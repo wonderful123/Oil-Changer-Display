@@ -8076,7 +8076,7 @@
                           {
                             "nid": -960783118,
                             "strtype": "IMAGE/Asset",
-                            "strval": "assets\\icn_bike.png",
+                            "strval": "assets\\icon_oilchange.png",
                             "InheritedType": 5
                           },
                           {
@@ -9264,7 +9264,7 @@
                           {
                             "nid": -2144721926,
                             "strtype": "OBJECT/Name",
-                            "strval": "ICN Battery",
+                            "strval": "Icon Diagnostics",
                             "InheritedType": 10
                           },
                           {
@@ -9516,7 +9516,7 @@
                           {
                             "nid": 120129723,
                             "strtype": "IMAGE/Asset",
-                            "strval": "assets\\icn_battery.png",
+                            "strval": "assets\\icon-diagnostics.png",
                             "InheritedType": 5
                           },
                           {
@@ -9548,7 +9548,8 @@
                             "InheritedType": 11
                           }
                         ],
-                        "saved_objtypeKey": "IMAGE"
+                        "saved_objtypeKey": "IMAGE",
+                        "tree_closed": true
                       }
                     ],
                     "locked": false,
@@ -9556,7 +9557,7 @@
                       {
                         "nid": 1543476519,
                         "strtype": "OBJECT/Name",
-                        "strval": "BTN Battery",
+                        "strval": "BTN Diagnostics",
                         "InheritedType": 10
                       },
                       {
@@ -19949,7 +19950,7 @@
               {
                 "nid": -1767849956,
                 "strtype": "OBJECT/Hidden",
-                "strval": "False",
+                "strval": "True",
                 "InheritedType": 2
               },
               {
@@ -20169,7 +20170,8 @@
                 "InheritedType": 11
               }
             ],
-            "saved_objtypeKey": "PANEL"
+            "saved_objtypeKey": "PANEL",
+            "tree_closed": true
           },
           {
             "guid": "GUID11463806-831537S7721150",
@@ -20481,7 +20483,7 @@
                       {
                         "nid": 631784844,
                         "strtype": "OBJECT/Name",
-                        "strval": "Label Battery Information",
+                        "strval": "Label Diagnostics Title",
                         "InheritedType": 10
                       },
                       {
@@ -20739,7 +20741,7 @@
                       {
                         "nid": 410355051,
                         "strtype": "LABEL/Text",
-                        "strval": "Battery Information",
+                        "strval": "Diagnostic Information",
                         "InheritedType": 10
                       },
                       {
@@ -20783,7 +20785,8 @@
                         "InheritedType": 2
                       }
                     ],
-                    "saved_objtypeKey": "LABEL"
+                    "saved_objtypeKey": "LABEL",
+                    "tree_closed": true
                   }
                 ],
                 "locked": false,
@@ -20791,7 +20794,7 @@
                   {
                     "nid": -667284100,
                     "strtype": "OBJECT/Name",
-                    "strval": "Group Battery Information",
+                    "strval": "Group Diagnostics Information",
                     "InheritedType": 10
                   },
                   {
@@ -28139,7 +28142,8 @@
                     "InheritedType": 11
                   }
                 ],
-                "saved_objtypeKey": "PANEL"
+                "saved_objtypeKey": "PANEL",
+                "tree_closed": true
               }
             ],
             "locked": false,
@@ -28147,7 +28151,7 @@
               {
                 "nid": -288130827,
                 "strtype": "OBJECT/Name",
-                "strval": "Group Battery",
+                "strval": "Group Diagnostics",
                 "InheritedType": 10
               },
               {
@@ -28427,8 +28431,7 @@
                 "InheritedType": 11
               }
             ],
-            "saved_objtypeKey": "PANEL",
-            "tree_closed": true
+            "saved_objtypeKey": "PANEL"
           },
           {
             "guid": "GUID69077318-669025S61150",
@@ -28771,7 +28774,7 @@
                         "flags": 17,
                         "strtype": "OBJECT/Position",
                         "intarray": [
-                          -34,
+                          -15,
                           0
                         ],
                         "InheritedType": 7
@@ -28998,7 +29001,7 @@
                       {
                         "nid": 981264508,
                         "strtype": "LABEL/Text",
-                        "strval": "Unlock Your Bike",
+                        "strval": "Enter Admin Pin Code",
                         "InheritedType": 10
                       },
                       {
@@ -29050,7 +29053,7 @@
                   {
                     "nid": -704761613,
                     "strtype": "OBJECT/Name",
-                    "strval": "Group Title2",
+                    "strval": "Group Admin Title",
                     "InheritedType": 10
                   },
                   {
@@ -29330,8 +29333,7 @@
                     "InheritedType": 11
                   }
                 ],
-                "saved_objtypeKey": "PANEL",
-                "tree_closed": true
+                "saved_objtypeKey": "PANEL"
               },
               {
                 "guid": "GUID89676373-669023S61150",
@@ -29979,7 +29981,7 @@
                       {
                         "nid": 1946934676,
                         "strtype": "OBJECT/Name",
-                        "strval": "Button Pin1",
+                        "strval": "Button Pin Code 1",
                         "InheritedType": 10
                       },
                       {
@@ -30416,13 +30418,13 @@
                               {
                                 "nid": 1237647718,
                                 "strtype": "PLAY ANIMATION/FunctionName",
-                                "strval": "Fash_Animation",
+                                "strval": "ButtonFlash_Animation",
                                 "InheritedType": 10
                               },
                               {
                                 "nid": -2115738381,
                                 "strtype": "PLAY ANIMATION/Animation",
-                                "strval": "Fash",
+                                "strval": "Button Flash",
                                 "InheritedType": 8
                               },
                               {
@@ -30447,6 +30449,44 @@
                                 "strtype": "PLAY ANIMATION/CallC",
                                 "strval": "<{FunctionName}>(<{Target}>, <{Delay}>);",
                                 "InheritedType": 10
+                              }
+                            ],
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": -1056537595,
+                            "strtype": "_custom/action",
+                            "strval": "CALL FUNCTION",
+                            "childs": [
+                              {
+                                "nid": 831940066,
+                                "strtype": "CALL FUNCTION/Name",
+                                "strval": "CALL FUNCTION",
+                                "InheritedType": 10
+                              },
+                              {
+                                "nid": 705897121,
+                                "strtype": "CALL FUNCTION/Call",
+                                "strval": "<{Function_name}>( event_struct )",
+                                "InheritedType": 10
+                              },
+                              {
+                                "nid": 469762211,
+                                "strtype": "CALL FUNCTION/CallC",
+                                "strval": "<{Function_name}>( e );",
+                                "InheritedType": 10
+                              },
+                              {
+                                "nid": 1527135237,
+                                "strtype": "CALL FUNCTION/Function_name",
+                                "strval": "onPinCodeButtonPress",
+                                "InheritedType": 10
+                              },
+                              {
+                                "nid": -928809317,
+                                "strtype": "CALL FUNCTION/Dont_export_function",
+                                "strval": "False",
+                                "InheritedType": 2
                               }
                             ],
                             "InheritedType": 10
@@ -31099,7 +31139,7 @@
                       {
                         "nid": 1763065800,
                         "strtype": "OBJECT/Name",
-                        "strval": "Button Pin2",
+                        "strval": "Button Pin Code 2",
                         "InheritedType": 10
                       },
                       {
@@ -31536,13 +31576,13 @@
                               {
                                 "nid": 27240583,
                                 "strtype": "PLAY ANIMATION/FunctionName",
-                                "strval": "Fash_Animation",
+                                "strval": "ButtonFlash_Animation",
                                 "InheritedType": 10
                               },
                               {
                                 "nid": 781268123,
                                 "strtype": "PLAY ANIMATION/Animation",
-                                "strval": "Fash",
+                                "strval": "Button Flash",
                                 "InheritedType": 8
                               },
                               {
@@ -31567,6 +31607,44 @@
                                 "strtype": "PLAY ANIMATION/CallC",
                                 "strval": "<{FunctionName}>(<{Target}>, <{Delay}>);",
                                 "InheritedType": 10
+                              }
+                            ],
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": -1334541428,
+                            "strtype": "_custom/action",
+                            "strval": "CALL FUNCTION",
+                            "childs": [
+                              {
+                                "nid": 260447746,
+                                "strtype": "CALL FUNCTION/Name",
+                                "strval": "CALL FUNCTION",
+                                "InheritedType": 10
+                              },
+                              {
+                                "nid": 136402321,
+                                "strtype": "CALL FUNCTION/Call",
+                                "strval": "<{Function_name}>( event_struct )",
+                                "InheritedType": 10
+                              },
+                              {
+                                "nid": 87126373,
+                                "strtype": "CALL FUNCTION/CallC",
+                                "strval": "<{Function_name}>( e );",
+                                "InheritedType": 10
+                              },
+                              {
+                                "nid": 1978487792,
+                                "strtype": "CALL FUNCTION/Function_name",
+                                "strval": "onPinCodeButtonPress",
+                                "InheritedType": 10
+                              },
+                              {
+                                "nid": -358045921,
+                                "strtype": "CALL FUNCTION/Dont_export_function",
+                                "strval": "False",
+                                "InheritedType": 2
                               }
                             ],
                             "InheritedType": 10
@@ -32220,7 +32298,7 @@
                       {
                         "nid": 1066209948,
                         "strtype": "OBJECT/Name",
-                        "strval": "Button Pin3",
+                        "strval": "Button Pin Code 3",
                         "InheritedType": 10
                       },
                       {
@@ -32657,13 +32735,13 @@
                               {
                                 "nid": -1585228719,
                                 "strtype": "PLAY ANIMATION/FunctionName",
-                                "strval": "Fash_Animation",
+                                "strval": "ButtonFlash_Animation",
                                 "InheritedType": 10
                               },
                               {
                                 "nid": 1703423503,
                                 "strtype": "PLAY ANIMATION/Animation",
-                                "strval": "Fash",
+                                "strval": "Button Flash",
                                 "InheritedType": 8
                               },
                               {
@@ -32688,6 +32766,44 @@
                                 "strtype": "PLAY ANIMATION/CallC",
                                 "strval": "<{FunctionName}>(<{Target}>, <{Delay}>);",
                                 "InheritedType": 10
+                              }
+                            ],
+                            "InheritedType": 10
+                          },
+                          {
+                            "nid": 163165909,
+                            "strtype": "_custom/action",
+                            "strval": "CALL FUNCTION",
+                            "childs": [
+                              {
+                                "nid": 1509464682,
+                                "strtype": "CALL FUNCTION/Name",
+                                "strval": "CALL FUNCTION",
+                                "InheritedType": 10
+                              },
+                              {
+                                "nid": -480183156,
+                                "strtype": "CALL FUNCTION/Call",
+                                "strval": "<{Function_name}>( event_struct )",
+                                "InheritedType": 10
+                              },
+                              {
+                                "nid": -158158446,
+                                "strtype": "CALL FUNCTION/CallC",
+                                "strval": "<{Function_name}>( e );",
+                                "InheritedType": 10
+                              },
+                              {
+                                "nid": -823495475,
+                                "strtype": "CALL FUNCTION/Function_name",
+                                "strval": "onPinCodeButtonPress",
+                                "InheritedType": 10
+                              },
+                              {
+                                "nid": -1248984686,
+                                "strtype": "CALL FUNCTION/Dont_export_function",
+                                "strval": "False",
+                                "InheritedType": 2
                               }
                             ],
                             "InheritedType": 10
@@ -33341,7 +33457,7 @@
                       {
                         "nid": -678316071,
                         "strtype": "OBJECT/Name",
-                        "strval": "Button Pin4",
+                        "strval": "Button Pin Code 4",
                         "InheritedType": 10
                       },
                       {
@@ -33778,13 +33894,13 @@
                               {
                                 "nid": -181801437,
                                 "strtype": "PLAY ANIMATION/FunctionName",
-                                "strval": "Fash_Animation",
+                                "strval": "ButtonFlash_Animation",
                                 "InheritedType": 10
                               },
                               {
                                 "nid": -1180240734,
                                 "strtype": "PLAY ANIMATION/Animation",
-                                "strval": "Fash",
+                                "strval": "Button Flash",
                                 "InheritedType": 8
                               },
                               {
@@ -34462,7 +34578,7 @@
                       {
                         "nid": -1108412388,
                         "strtype": "OBJECT/Name",
-                        "strval": "Button Pin5",
+                        "strval": "Button Pin Code 5",
                         "InheritedType": 10
                       },
                       {
@@ -34899,13 +35015,13 @@
                               {
                                 "nid": -1441687178,
                                 "strtype": "PLAY ANIMATION/FunctionName",
-                                "strval": "Fash_Animation",
+                                "strval": "ButtonFlash_Animation",
                                 "InheritedType": 10
                               },
                               {
                                 "nid": -1769500797,
                                 "strtype": "PLAY ANIMATION/Animation",
-                                "strval": "Fash",
+                                "strval": "Button Flash",
                                 "InheritedType": 8
                               },
                               {
@@ -35583,7 +35699,7 @@
                       {
                         "nid": 207405510,
                         "strtype": "OBJECT/Name",
-                        "strval": "Button Pin6",
+                        "strval": "Button Pin Code 6",
                         "InheritedType": 10
                       },
                       {
@@ -36020,13 +36136,13 @@
                               {
                                 "nid": -443468748,
                                 "strtype": "PLAY ANIMATION/FunctionName",
-                                "strval": "Fash_Animation",
+                                "strval": "ButtonFlash_Animation",
                                 "InheritedType": 10
                               },
                               {
                                 "nid": 1079727037,
                                 "strtype": "PLAY ANIMATION/Animation",
-                                "strval": "Fash",
+                                "strval": "Button Flash",
                                 "InheritedType": 8
                               },
                               {
@@ -36704,7 +36820,7 @@
                       {
                         "nid": -522185699,
                         "strtype": "OBJECT/Name",
-                        "strval": "Button Pin7",
+                        "strval": "Button Pin Code 7",
                         "InheritedType": 10
                       },
                       {
@@ -37141,13 +37257,13 @@
                               {
                                 "nid": -1776603177,
                                 "strtype": "PLAY ANIMATION/FunctionName",
-                                "strval": "Fash_Animation",
+                                "strval": "ButtonFlash_Animation",
                                 "InheritedType": 10
                               },
                               {
                                 "nid": 462848808,
                                 "strtype": "PLAY ANIMATION/Animation",
-                                "strval": "Fash",
+                                "strval": "Button Flash",
                                 "InheritedType": 8
                               },
                               {
@@ -37825,7 +37941,7 @@
                       {
                         "nid": -141995645,
                         "strtype": "OBJECT/Name",
-                        "strval": "Button Pin8",
+                        "strval": "Button Pin Code 8",
                         "InheritedType": 10
                       },
                       {
@@ -38262,13 +38378,13 @@
                               {
                                 "nid": -842649504,
                                 "strtype": "PLAY ANIMATION/FunctionName",
-                                "strval": "Fash_Animation",
+                                "strval": "ButtonFlash_Animation",
                                 "InheritedType": 10
                               },
                               {
                                 "nid": 1250862497,
                                 "strtype": "PLAY ANIMATION/Animation",
-                                "strval": "Fash",
+                                "strval": "Button Flash",
                                 "InheritedType": 8
                               },
                               {
@@ -38946,7 +39062,7 @@
                       {
                         "nid": -591449074,
                         "strtype": "OBJECT/Name",
-                        "strval": "Button Pin9",
+                        "strval": "Button Pin Code 9",
                         "InheritedType": 10
                       },
                       {
@@ -39383,13 +39499,13 @@
                               {
                                 "nid": 1104475270,
                                 "strtype": "PLAY ANIMATION/FunctionName",
-                                "strval": "Fash_Animation",
+                                "strval": "ButtonFlash_Animation",
                                 "InheritedType": 10
                               },
                               {
                                 "nid": -187386207,
                                 "strtype": "PLAY ANIMATION/Animation",
-                                "strval": "Fash",
+                                "strval": "Button Flash",
                                 "InheritedType": 8
                               },
                               {
@@ -40043,7 +40159,7 @@
                       {
                         "nid": 1976251595,
                         "strtype": "OBJECT/Name",
-                        "strval": "Button PinX",
+                        "strval": "Button Pin Code X",
                         "InheritedType": 10
                       },
                       {
@@ -40480,13 +40596,13 @@
                               {
                                 "nid": -1529446242,
                                 "strtype": "PLAY ANIMATION/FunctionName",
-                                "strval": "Fash_Animation",
+                                "strval": "ButtonFlash_Animation",
                                 "InheritedType": 10
                               },
                               {
                                 "nid": 1223948359,
                                 "strtype": "PLAY ANIMATION/Animation",
-                                "strval": "Fash",
+                                "strval": "Button Flash",
                                 "InheritedType": 8
                               },
                               {
@@ -40519,7 +40635,8 @@
                         "InheritedType": 4
                       }
                     ],
-                    "saved_objtypeKey": "BUTTON"
+                    "saved_objtypeKey": "BUTTON",
+                    "tree_closed": true
                   },
                   {
                     "guid": "GUID67413386-677372S9481150",
@@ -41163,7 +41280,7 @@
                       {
                         "nid": 1958915915,
                         "strtype": "OBJECT/Name",
-                        "strval": "Button Pin0",
+                        "strval": "Button Pin Code 0",
                         "InheritedType": 10
                       },
                       {
@@ -41600,13 +41717,13 @@
                               {
                                 "nid": -1278887610,
                                 "strtype": "PLAY ANIMATION/FunctionName",
-                                "strval": "Fash_Animation",
+                                "strval": "ButtonFlash_Animation",
                                 "InheritedType": 10
                               },
                               {
                                 "nid": 518095323,
                                 "strtype": "PLAY ANIMATION/Animation",
-                                "strval": "Fash",
+                                "strval": "Button Flash",
                                 "InheritedType": 8
                               },
                               {
@@ -41639,7 +41756,8 @@
                         "InheritedType": 4
                       }
                     ],
-                    "saved_objtypeKey": "BUTTON"
+                    "saved_objtypeKey": "BUTTON",
+                    "tree_closed": true
                   },
                   {
                     "guid": "GUID92095589-678036S2771150",
@@ -42259,7 +42377,7 @@
                       {
                         "nid": -1105311232,
                         "strtype": "OBJECT/Name",
-                        "strval": "Button PinX1",
+                        "strval": "Button Pin Code Confirm",
                         "InheritedType": 10
                       },
                       {
@@ -42696,13 +42814,13 @@
                               {
                                 "nid": -678984553,
                                 "strtype": "PLAY ANIMATION/FunctionName",
-                                "strval": "Fash_Animation",
+                                "strval": "ButtonFlash_Animation",
                                 "InheritedType": 10
                               },
                               {
                                 "nid": -1290851021,
                                 "strtype": "PLAY ANIMATION/Animation",
-                                "strval": "Fash",
+                                "strval": "Button Flash",
                                 "InheritedType": 8
                               },
                               {
@@ -42743,7 +42861,7 @@
                   {
                     "nid": 1806775908,
                     "strtype": "OBJECT/Name",
-                    "strval": "Group Pin1",
+                    "strval": "Group Pin Numbers",
                     "InheritedType": 10
                   },
                   {
@@ -43043,7 +43161,7 @@
               {
                 "nid": 1375528542,
                 "strtype": "OBJECT/Name",
-                "strval": "Group Pin",
+                "strval": "Group Pin Code",
                 "InheritedType": 10
               },
               {
@@ -43103,7 +43221,7 @@
               {
                 "nid": -2074529187,
                 "strtype": "OBJECT/Hidden",
-                "strval": "True",
+                "strval": "False",
                 "InheritedType": 2
               },
               {
@@ -43323,8 +43441,7 @@
                 "InheritedType": 11
               }
             ],
-            "saved_objtypeKey": "PANEL",
-            "tree_closed": true
+            "saved_objtypeKey": "PANEL"
           }
         ],
         "isPage": true,
@@ -44878,13 +44995,13 @@
         {
           "nid": 0,
           "strtype": "ELOANIMATION/Name",
-          "strval": "Fash",
+          "strval": "Button Flash",
           "InheritedType": 10
         },
         {
           "nid": 0,
           "strtype": "ELOANIMATION/FunctionName",
-          "strval": "Fash_Animation",
+          "strval": "ButtonFlash_Animation",
           "InheritedType": 10
         },
         {
@@ -44904,6 +45021,12 @@
           "strtype": "ELOANIMATION/Loop",
           "strval": "False",
           "InheritedType": 2
+        },
+        {
+          "nid": -2039962690,
+          "strtype": "ELOANIMATION/TestTarget",
+          "strval": "GUID78582940-617959S2621150",
+          "InheritedType": 10
         }
       ],
       "saved_objtypeKey": "ELOANIMATION"
@@ -45828,9 +45951,9 @@
     "theme_dark": false,
     "theme_color1": 5,
     "theme_color2": 0,
-    "uiExportFolderPath": "C:\\Users\\Josh\\Documents\\PlatformIO\\Projects\\Oil-Changer Display\\include\\Squareline-UI",
+    "uiExportFolderPath": "C:\\Users\\Josh\\Documents\\PlatformIO\\Projects\\Oil-Changer Display\\lib\\Squareline-UI",
     "projectExportFolderPath": "C:\\Users\\Josh\\Documents\\PlatformIO\\Projects\\Oil-Changer Display\\Squareline Studio - UI Design Project",
-    "backup_cnt": 418,
+    "backup_cnt": 426,
     "autosave_cnt": 0,
     "lvgl_version": "8.3.6",
     "callfuncsexport": "CPP_FILE",

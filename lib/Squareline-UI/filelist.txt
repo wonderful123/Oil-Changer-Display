@@ -8,8 +8,8 @@ images/ui_img_speed_slider_png.c
 images/ui_img_slider_battery_png.c
 images/ui_img_icn_flash_png.c
 images/ui_img_menu_on_png.c
-images/ui_img_icn_bike_png.c
-images/ui_img_icn_battery_png.c
+images/ui_img_icon_oilchange_png.c
+images/ui_img_190876488.c
 images/ui_img_icn_lock_png.c
 images/ui_img_menu_line_png.c
 images/ui_img_particle_1_png.c
