@@ -2,46 +2,122 @@
 
 #include "UIManager.h"
 
+#include <iomanip>  // For std::setprecision
+#include <sstream>  // For std::stringstream
+
 #include "DataTracker.h"
-#include "Squareline-UI/ui.h"
 
 UIManager::UIManager(std::shared_ptr<DataTracker> dataTracker)
     : _dataTracker(dataTracker) {
+  setupUI();
+
   // Subscribe to DataTracker changes
-  _dataTracker->subscribe(
-      "FillCapacity", [this](const std::string& key, const std::string& value) {
-        this->onFillCapacityChanged(key, value);
-      });
-  _dataTracker->subscribe(
-      "AmountFilled", [this](const std::string& key, const std::string& value) {
-        this->onAmountChanged(key, value);
-      });
-  _dataTracker->subscribe("AmountExtracted", [this](const std::string& key,
-                                                    const std::string& value) {
-    this->onAmountChanged(key, value);
-  });
+  subscribeToDataTracker("FillCapacity", &UIManager::onFillCapacityChange);
+  subscribeToDataTracker("AmountFilled", &UIManager::onFillExtractAmountChange);
+  subscribeToDataTracker("AmountExtracted",
+                         &UIManager::onFillExtractAmountChange);
+  subscribeToDataTracker("Voltage", &UIManager::onGenericFloatDataChange);
+  subscribeToDataTracker("OilTemperature",
+                         &UIManager::onGenericFloatDataChange);
+  subscribeToDataTracker("FlowRateExtract",
+                         &UIManager::onFlowRateExtractChange);
+  subscribeToDataTracker("FlowRateFill", &UIManager::onFlowRateFillChange);
 }
 
-void UIManager::onFillCapacityChanged(const std::string& key,
-                                      const std::string& value) {
-  // Update UI labels for Fill Capacity (2 digits, one as a shadow)
-  lv_label_set_text(ui_Fill_Capacity_Number_1, value.c_str());
-  lv_label_set_text(ui_Fill_Capacity_Number_2, value.c_str());
+// Maps all elements defined the UIInitializer
+void UIManager::setupUI() {
+  UIInitializer initializer;
+  initializer.initialize(uiElements);
 }
 
-void UIManager::onAmountChanged(const std::string& key,
-                                const std::string& value) {
-  // Calculate the slider values as a percentage (out of 1000 as set in
-  // squareline for the range)
-  float fillCapacity = _dataTracker->getFillCapacity();
-  float amount = std::stof(value);
-  int sliderValue = (fillCapacity != 0.0f)
-                        ? static_cast<int>((amount / fillCapacity) * 1000)
-                        : 0;
+void UIManager::registerElement(const std::string& dataKey, lv_obj_t* element) {
+  uiElements[dataKey] = element;
+}
 
-  if (key == "AmountFilled") {
-    lv_slider_set_value(ui_Slider_Fill, sliderValue, LV_ANIM_OFF);
-  } else if (key == "AmountExtracted") {
-    lv_slider_set_value(ui_Slider_Extract, sliderValue, LV_ANIM_OFF);
+void UIManager::onGenericFloatDataChange(const std::string& dataKey,
+                                         const std::string& value,
+                                         int precision) {
+  auto formattedValue = floatToString(value, precision);
+
+  // Find the corresponding UI element and update it
+  auto uiElementIter = uiElements.find(dataKey);
+  if (uiElementIter != uiElements.end()) {
+    lv_label_set_text(uiElementIter->second, formattedValue.c_str());
   }
+}
+
+void UIManager::onFillCapacityChange(const std::string& key,
+                                      const std::string& value) {
+  lv_label_set_text(uiElements["ui_Fill_Capacity_Number_1"],
+                    floatToString(value).c_str());
+  lv_label_set_text(uiElements["ui_Fill_Capacity_Number_2"],
+                    floatToString(value).c_str());
+}
+
+void UIManager::onFlowRateExtractChange(const std::string& key,
+                                         const std::string& value) {
+  // Assuming the same UI element is updated for both extract and fill flow
+  // rates
+  auto formattedValue = floatToString(value);
+  if (uiElements.find("FlowRateNumber") != uiElements.end()) {
+    lv_label_set_text(uiElements["FlowRateNumber"], formattedValue.c_str());
+  }
+}
+
+void UIManager::onFlowRateFillChange(const std::string& key,
+                                      const std::string& value) {
+  // Similar handling as for onFlowRateExtractChanged
+  auto formattedValue = floatToString(value);
+  if (uiElements.find("FlowRateNumber") != uiElements.end()) {
+    lv_label_set_text(uiElements["FlowRateNumber"], formattedValue.c_str());
+  }
+}
+
+void UIManager::onFillExtractAmountChange(const std::string& key,
+                                          const std::string& value) {
+  float fillCapacity = _dataTracker->getFillCapacity();
+  int sliderValue =
+      (fillCapacity != 0.0f) ? calculateSliderValue(value, fillCapacity) : 0;
+
+  std::string sliderElementKey =
+      (key == "AmountFilled") ? "ui_Slider_Fill" : "ui_Slider_Extract";
+  if (uiElements.find(sliderElementKey) != uiElements.end()) {
+    lv_slider_set_value(uiElements[sliderElementKey], sliderValue, LV_ANIM_OFF);
+  }
+}
+
+int UIManager::calculateSliderValue(const std::string& fillAmountStr,
+                                    double fillCapacity) {
+  double fillAmount = std::stod(fillAmountStr);
+  double percentage = (fillAmount / fillCapacity) * 100.0;
+  return static_cast<int>(percentage * 10);  // Adjusting to 0-1000 range
+}
+
+void UIManager::subscribeToDataTracker(
+    const std::string& key,
+    void (UIManager::*memberFunction)(const std::string&, const std::string&)) {
+  _dataTracker->subscribe(
+      key, [this, memberFunction](const std::string& k, const std::string& v) {
+        (this->*memberFunction)(k, v);
+      });
+}
+
+void UIManager::subscribeToDataTracker(
+    const std::string& key,
+    void (UIManager::*memberFunction)(const std::string&, const std::string&,
+                                      int)) {
+  _dataTracker->subscribe(
+      key, [this, memberFunction](const std::string& k, const std::string& v) {
+        (this->*memberFunction)(k, v, 1);  // Default precision passed here
+      });
+}
+
+std::string UIManager::floatToString(const std::string& input,
+                                            int precision) {
+  std::stringstream stream;
+  // Convert string to float and format it
+  float number = std::stof(input);
+  stream << std::fixed << std::setprecision(precision) << number;
+  // Convert back to string
+  return stream.str();
 }
