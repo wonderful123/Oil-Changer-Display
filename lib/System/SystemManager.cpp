@@ -15,7 +15,6 @@ SystemManager::SystemManager()
 void SystemManager::initialize() {
   initializeCommunicationManager();
   _uiManager = std::make_shared<UIManager>(_dataTracker);
-  if (_uiManager == nullptr) LOG_DEBUG("DATATRACKER NULL"); else LOG_DEBUG("DATATRACKER NOT NULL");
   _uiManager->initialize();
 }
 
@@ -48,5 +47,5 @@ bool SystemManager::isCommandMessage(const MessageData& data) {
 }
 
 void SystemManager::updateSystemData(const MessageData& messageData) {
-  _dataTracker->updateMessageData(messageData);
+  _dataTracker->updateFromMessageData(messageData);
 }
