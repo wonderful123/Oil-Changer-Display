@@ -19,17 +19,36 @@ void CommunicationManager::initialize() {
 }
 
 MessageData CommunicationManager::processMessage() {
-  std::string receivedMessage;
+  // Check if data is available on the serial port
+  if (!Serial.available()) {
+    return MessageData();  // Return empty data if no message is available
+  }
 
-  // TODO: Serial is hardcoded here due to crashes
+  static std::string buffer;  // Buffer to accumulate incoming data
+  bool messageComplete = false;
+
   while (Serial.available()) {
     int byteRead = Serial.read();
-    if (byteRead != -1) {  // Check if a byte is available
-      receivedMessage += static_cast<char>(byteRead);
+    if (byteRead != -1) {
+      char charRead = static_cast<char>(byteRead);
+      buffer += charRead;
+      if (charRead == '>') {
+        messageComplete = true;
+        break;  // Stop reading when the end of a message is reached
+      }
     }
   }
 
-  return parseMessage(receivedMessage);
+  if (!messageComplete) {
+    return MessageData();  // Return empty if the message is not complete
+  }
+
+  LOG_DEBUG(buffer);
+
+  // Process the complete message
+  MessageData parsedData = parseMessage(buffer);
+  buffer.clear();  // Clear the buffer for the next message
+  return parsedData;
 }
 
 MessageData CommunicationManager::parseMessage(
