@@ -1,53 +1,30 @@
 // DataTracker.cpp
-#include "DataTracker.h"
-
 #include <algorithm>
 
-#include "Logger.h"
+#include "DataTracker.h"
 #include "MessageData.h"
 
-DataTracker::DataTracker()
-    : _fillCapacity(0.0f),
-      _amountFilled(0.0f),
-      _amountExtracted(0.0f),
-      _voltage(0.0f),
-      _oilTemperature(0.0f),
-      _flowRateExtract(0.0f),
-      _flowRateFill(0.0f) {}
+DataTracker::DataTracker() { initializeKeyMap(); }
 
-// Specific data field setters
-void DataTracker::setFillCapacity(float value) { _fillCapacity = value; }
-void DataTracker::setAmountFilled(float value) { _amountFilled = value; }
-void DataTracker::setAmountExtracted(float value) { _amountExtracted = value; }
-void DataTracker::setVoltage(float value) { _voltage = value; }
-void DataTracker::setOilTemperature(float value) { _oilTemperature = value; }
-void DataTracker::setFlowRateExtract(float value) { _flowRateExtract = value; }
-void DataTracker::setFlowRateFill(float value) { _flowRateFill = value; }
-
-// Specific data field getters
-float DataTracker::getFillCapacity() const { return _fillCapacity; }
-float DataTracker::getAmountFilled() const { return _amountFilled; }
-float DataTracker::getAmountExtracted() const { return _amountExtracted; }
-float DataTracker::getVoltage() const { return _voltage; }
-float DataTracker::getOilTemperature() const { return _oilTemperature; }
-float DataTracker::getFlowRateExtract() const { return _flowRateExtract; }
-float DataTracker::getFlowRateFill() const { return _flowRateFill; }
+// These map to subscribe events that UIManager subscribes to.
+void DataTracker::initializeKeyMap() {
+  keyMap = {{"FillCap", "FillCapacity"},
+            {"AmtFilled", "AmountFilled"},
+            {"AmtExtracted", "AmountExtracted"},
+            {"Voltage", "BatteryVoltage"},
+            {"Temp", "OilTemp"},
+            {"FillRate", "FillRate"},
+            {"ExtractRate", "ExtractRate"}};
+}
 
 void DataTracker::setData(const std::string& key, const std::string& value) {
-  data.emplace(key, value);
+  data[key] = value;
   notifyObservers(key);
 }
 
 std::string DataTracker::getData(const std::string& key) const {
   auto it = data.find(key);
-  return it != data.end() ? it->second : "";
-}
-
-void DataTracker::updateMessageData(const MessageData& messageData) {
-  for (const auto& keyValue : messageData.data()) {
-    LOG_DEBUG(keyValue.first);
-    setData(keyValue.first, keyValue.second);
-  }
+  return it != data.end() ? it->second : "0";
 }
 
 void DataTracker::subscribe(const std::string& key, ObserverFunction observer) {
@@ -75,5 +52,14 @@ void DataTracker::notifyObservers(const std::string& key) {
     for (const auto& observer : observers[key]) {
       observer(key, it->second);
     }
+  }
+}
+
+void DataTracker::updateFromMessageData(const MessageData& messageData) {
+  for (const auto& keyValue : messageData.data()) {
+    auto it = keyMap.find(keyValue.first);
+    std::string genericKey = (it != keyMap.end()) ? it->second : keyValue.first;
+
+    setData(genericKey, keyValue.second);
   }
 }
