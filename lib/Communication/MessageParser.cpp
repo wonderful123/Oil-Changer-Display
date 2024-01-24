@@ -1,66 +1,79 @@
 // MessageParser.cpp
-#include "MessageParser.h"
-
 #include <sstream>
 #include <vector>
 
 #include "Config.h"
 #include "Logger.h"
 #include "MessageData.h"
+#include "MessageParser.h"
 
 MessageData MessageParser::parseMessage(const std::string& message) {
   MessageData data;
 
   if (message.empty() || message.front() != '<' || message.back() != '>') {
-    return data;  // Return empty map
+    LOG_DEBUG("[MessageParser] Message is empty or invalid format");
+    return data;
   }
 
-  // Remove the enclosing '<' and '>'
-  std::string content = message.substr(1, message.length() - 2);
+  std::string content = extractContent(message);
+  auto [identifier, payload] = extractIdentifierAndPayload(content);
 
-  // Extract the identifier part (e.g., "Display1;")
+  if (!isValidIdentifier(identifier)) {
+    Logger::error("[MessageParser] Identifier mismatch");
+    return MessageData();
+  }
+
+  auto [parsedPayload, extractedChecksum] = extractPayloadAndChecksum(payload);
+
+  if (!validateChecksum(parsedPayload, extractedChecksum)) {
+    Logger::error("[MessageParser] Checksum validation failed");
+    return MessageData();
+  }
+
+  parsePayloadToData(parsedPayload, data);
+
+  return data;
+}
+
+std::string MessageParser::extractContent(const std::string& message) {
+  // Remove the enclosing '<' and '>'
+  return message.substr(1, message.length() - 2);
+}
+
+std::pair<std::string, std::string> MessageParser::extractIdentifierAndPayload(
+    const std::string& content) {
   size_t idEndPos = content.find(';');
   if (idEndPos == std::string::npos) {
     Logger::error(
         "[MessageParser] Invalid message format - missing identifier");
-    return data;
+    return {"", ""};
   }
-  std::string identifier = content.substr(0, idEndPos + 1);
+  return {content.substr(0, idEndPos), content.substr(idEndPos + 1)};
+}
 
-  if (!isValidIdentifier(identifier)) {
-    Logger::error("[MessageParser] Identifier mismatch");
-    return MessageData();  // Return empty map
-  }
-
-  // Process the payload
-  std::string payload = content.substr(idEndPos + 1);
-  std::string extractedChecksum;
+std::pair<std::string, std::string> MessageParser::extractPayloadAndChecksum(
+    const std::string& payload) {
   size_t lastSemicolonPos = payload.rfind(';');
-  if (lastSemicolonPos != std::string::npos) {
-    extractedChecksum = payload.substr(lastSemicolonPos + 1);
-    payload =
-        payload.substr(0, lastSemicolonPos);  // Exclude checksum from payload
+  if (lastSemicolonPos == std::string::npos) {
+    Logger::error("[MessageParser] Invalid message format - missing checksum");
+    return {"", ""};
   }
+  return {payload.substr(0, lastSemicolonPos),
+          payload.substr(lastSemicolonPos + 1)};
+}
 
-  // Validate checksum
-  if (!validateChecksum(payload, extractedChecksum)) {
-    Logger::error("[MessageParser] Checksum validation failed");
-    return MessageData();  // Return empty map
-  }
-
-  // Parse payload
+void MessageParser::parsePayloadToData(const std::string& payload,
+                                       MessageData& data) {
   std::stringstream ss(payload);
   std::string token;
-  while (getline(ss, token, ';')) {
+  while (std::getline(ss, token, ';')) {
     size_t delimiterPos = token.find(':');
     if (delimiterPos != std::string::npos) {
       std::string key = token.substr(0, delimiterPos);
       std::string value = token.substr(delimiterPos + 1);
-      data.data()[key] = value;  // Access internal map of MessageData
+      data.data()[key] = value;
     }
   }
-
-  return data;
 }
 
 bool MessageParser::validateChecksum(const std::string& payload,
@@ -70,11 +83,10 @@ bool MessageParser::validateChecksum(const std::string& payload,
     sum += static_cast<unsigned int>(c);
   }
   unsigned int calculatedChecksum = sum % 256;
+  // LOG_DEBUG("Calculated checksum: " + std::to_string(calculatedChecksum));
 
-  // Convert receivedChecksumStr to an integer
   unsigned int receivedChecksum =
       static_cast<unsigned int>(std::stoi(receivedChecksumStr));
-
   return calculatedChecksum == receivedChecksum;
 }
 
