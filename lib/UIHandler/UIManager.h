@@ -27,7 +27,7 @@ class UIManager {
                                  const std::string& value);
 
   int calculateSliderValue(const std::string& fillAmountStr,
-                           double fillCapacity);
+                           const std::string& fillCapacityStr);
   void subscribeToDataTracker(const std::string& key,
                               void (UIManager::*memberFunction)(
                                   const std::string&, const std::string&));
@@ -36,7 +36,8 @@ class UIManager {
                                   const std::string&, const std::string&, int));
   void registerElement(const std::string& dataKey, lv_obj_t* element);
 
-  std::string floatToString(const std::string& input, int precision = 1);
+  static const char* floatStringToCString(const std::string& value,
+                                          int precision = 1);
 
   std::shared_ptr<DataTracker> _dataTracker;
   std::map<std::string, lv_obj_t*> uiElements;
