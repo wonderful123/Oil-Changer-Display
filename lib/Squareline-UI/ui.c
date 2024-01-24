@@ -164,7 +164,6 @@ void ui_event_Button_Pin_Code_Confirm(lv_event_t * e);
 lv_obj_t * ui_Button_Pin_Code_Confirm;
 lv_obj_t * ui_Pin_Add12;
 lv_obj_t * ui_Image_Ok;
-void ui_event____initial_actions0(lv_event_t * e);
 lv_obj_t * ui____initial_actions0;
 const lv_img_dsc_t * ui_imgset_particle_[3] = {&ui_img_particle_1_png, &ui_img_particle_2_png, &ui_img_particle_3_png};
 const lv_img_dsc_t * ui_imgset_water_[2] = {&ui_img_water_1_png, &ui_img_water_2_png};
@@ -551,17 +550,6 @@ void ui_event_Button_Pin_Code_Confirm(lv_event_t * e)
         ButtonFlash_Animation(ui_Pin_Add12, 0);
     }
 }
-void ui_event____initial_actions0(lv_event_t * e)
-{
-    lv_event_code_t event_code = lv_event_get_code(e);
-    lv_obj_t * target = lv_event_get_target(e);
-    if(event_code == LV_EVENT_SCREEN_LOAD_START) {
-        _ui_slider_set_property(ui_Slider_Extract, _UI_SLIDER_PROPERTY_VALUE_WITH_ANIM, 1000);
-        _ui_slider_set_property(ui_Slider_Fill, _UI_SLIDER_PROPERTY_VALUE_WITH_ANIM, 0);
-        _ui_label_set_property(ui_Fill_Capacity_Number_1, _UI_LABEL_PROPERTY_TEXT, "4.0");
-        _ui_label_set_property(ui_Fill_Capacity_Number_2, _UI_LABEL_PROPERTY_TEXT, "4.0");
-    }
-}
 
 ///////////////////// SCREENS ////////////////////
 
@@ -572,8 +560,5 @@ void ui_init(void)
     lv_disp_set_theme(dispp, theme);
     ui_Main_screen_init();
     ui____initial_actions0 = lv_obj_create(NULL);
-    lv_obj_add_event_cb(ui____initial_actions0, ui_event____initial_actions0, LV_EVENT_ALL, NULL);
-
-    lv_disp_load_scr(ui____initial_actions0);
     lv_disp_load_scr(ui_Main);
 }

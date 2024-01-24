@@ -179,7 +179,6 @@ void ui_event_Button_Pin_Code_Confirm(lv_event_t * e);
 extern lv_obj_t * ui_Button_Pin_Code_Confirm;
 extern lv_obj_t * ui_Pin_Add12;
 extern lv_obj_t * ui_Image_Ok;
-void ui_event____initial_actions0(lv_event_t * e);
 extern lv_obj_t * ui____initial_actions0;
 
 LV_IMG_DECLARE(ui_img_ebike_bg_png);    // assets\ebike_bg.png
