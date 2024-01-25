@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Serial Output</title>
+  <script type="text/javascript">
+    var socket;
+
+    function initWebSocket() {
+      socket = new WebSocket('ws://oilchangerdisplay.local/ws');
+      socket.onmessage = function (event) {
+        console.log('Message from server:', event.data);
+        updateSerialOutput(event.data);
+      };
+      socket.onopen = function (event) {
+        console.log('WebSocket is open now.');
+      };
+      socket.onclose = function (event) {
+        console.log('WebSocket is closed now.');
+        setTimeout(initWebSocket, 2000);
+      };
+    }
+
+    function updateSerialOutput(message) {
+      var serialOutput = document.getElementById('serialOutput');
+      serialOutput.textContent += message + '\n';
+      serialOutput.scrollTop = serialOutput.scrollHeight;
+    }
+
+    window.onload = initWebSocket;
+  </script>
+</head>
+
+<body>
+  <h1>ESP32 Serial Output</h1>
+  <pre id="serialOutput"></pre>
+</body>
+
+</html>
