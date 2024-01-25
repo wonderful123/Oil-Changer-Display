@@ -1,12 +1,13 @@
 // main.cpp
 #include <Arduino.h>
 
-#include <memory>
 #include <string>
 
+#include "DebugUtils.h"
 #include "DisplayManager.h"
 #include "Logger.h"
 #include "SystemManager.h"
+#include "WebServerManager.h"
 
 // Foward declarations
 void serialLogCallback(Logger::Level level, const std::string& message);
@@ -15,27 +16,30 @@ void initializeLogger();
 // Global Objects
 DisplayManager displayManager;
 SystemManager systemManager;
+WebServerManager webServerManager;
 
-void logMemory() {
-  log_d("Total heap: %d", ESP.getHeapSize());
-  log_d("Free heap: %d", ESP.getFreeHeap());
-  log_d("Total PSRAM: %d", ESP.getPsramSize());
-  log_d("Free PSRAM: %d", ESP.getFreePsram());
-  log_d("Used PSRAM: %d", ESP.getPsramSize() - ESP.getFreePsram());
+void serialLogCallback2(Logger::Level level, const std::string& message) {
+  webServerManager.sendWSMessage(message);
+  if (!Serial) return;
+  Serial.println(message.c_str());
+  Serial.flush();
 }
 
 void setup() {
   initializeLogger();
   displayManager.initialize();
   systemManager.initialize();
+  webServerManager.initialize();
 
-  logMemory();
+  Logger::setLogCallback(serialLogCallback2);
+  DebugUtils::logMemoryUsage();
   Logger::info("[Main] Setup complete");
 }
 
 void loop() {
   systemManager.update();
   displayManager.update();
+  webServerManager.update();
 }
 
 void serialLogCallback(Logger::Level level, const std::string& message) {
