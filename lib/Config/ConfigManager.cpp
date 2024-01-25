@@ -1,67 +1,96 @@
 // ConfigManager.cpp
 #include "ConfigManager.h"
-
 #include "Logger.h"
 
-ConfigManager::ConfigManager() {
+ConfigManager::ConfigManager()
+    : _hardwareConfig(&_allocator), _wifiConfig(&_allocator) {
   LittleFS.begin();
-  _config = JsonDocument();
+
+  if (!loadHardwareConfig()) {
+    LOG_ERROR("Failed to load hardware config");
+  }
+
+  if (!loadWiFiConfig()) {
+    LOG_ERROR("Failed to load wifi config");
+  }
 }
 
-bool ConfigManager::loadConfig(std::string filePath, std::string mode) {
-  // Ensure filePath starts with '/'
-  if (filePath.front() != '/') {
-    filePath = "/" + filePath;
+bool ConfigManager::loadHardwareConfig() {
+  return loadConfig(HARDWARE_CONFIG_FILE, "r", _hardwareConfig);
+}
+
+bool ConfigManager::loadWiFiConfig() {
+  return loadConfig(WIFI_CONFIG_FILE, "r", _wifiConfig);
+}
+
+bool ConfigManager::loadConfig(const std::string& filePath,
+                               const std::string& mode,
+                               JsonDocument& destination) {
+  std::string path = filePath;
+  if (path.front() != '/') {
+    path = "/" + path;
   }
 
-  // Logger::info("[ConfigManager] Listing files on the device:");
-  // File root = LittleFS.open("/");
-  // if (!root) {
-  //   Logger::error("[ConfigManager] Failed to open root directory.");
-  // } else if (!root.isDirectory()) {
-  //   Logger::error("[ConfigManager] Root is not a directory.");
-  // } else {
-  //   File file = root.openNextFile();
-  //   std::string filename = file.name();
-  //   while (file) {
-  //     Logger::info("[ConfigManager] File: " + filename);
-  //     file.close();
-  //     file = root.openNextFile();
-  //   }
-  // }
-
-  File configFile = LittleFS.open(filePath.c_str(), mode.c_str());
+  File configFile = LittleFS.open(path.c_str(), mode.c_str());
   if (!configFile) {
-    Logger::error("[ConfigManager] Failed to open config file: " + filePath);
+    LOG_ERROR("Failed to open config file: " + path);
     return false;
   }
-  Logger::info("[ConfigManager] Successfully open config file: " + filePath);
+  LOG_INFO("Successfully opened config file: " + path);
 
-  DeserializationError error = deserializeJson(_config, configFile);
+  DeserializationError error = deserializeJson(destination, configFile);
   if (error) {
-    Logger::error("[ConfigManager] DeserializeJson failed: " +
-                  std::string(error.c_str()));
+    LOG_ERROR("DeserializeJson failed: " + std::string(error.c_str()));
     return false;
   }
-  Logger::info("[ConfigManager] Config file deserialized");
+  LOG_INFO("Config file deserialized");
 
   return true;
 }
 
-JsonObject ConfigManager::getDisplayConfig() const {
-  JsonObject obj = _config["display"];
-  if (obj.isNull()) {
-    Logger::error("[ConfigManager] Display configuration is null");
-    return JsonObject();  // Return an empty JsonObject
+JsonDocument ConfigManager::getConfigSection(const std::string& sectionName,
+                                             const JsonDocument& doc) const {
+  JsonDocument tempDoc;
+  tempDoc.set(doc[sectionName]);
+  if (tempDoc.isNull()) {
+    LOG_WARN(sectionName + " config is empty");
   }
-  return obj;
+  return tempDoc;
 }
 
-JsonObject ConfigManager::getTouchConfig() const {
-  JsonObject obj = _config["touch"];
-  if (obj.isNull()) {
-    Logger::error("[ConfigManager] Touch configuration is null");
-    return JsonObject();  // Return an empty JsonObject
+JsonDocument ConfigManager::getDisplayConfig() const {
+  return getConfigSection("display", _hardwareConfig);
+}
+
+JsonDocument ConfigManager::getTouchConfig() const {
+  return getConfigSection("touch", _hardwareConfig);
+}
+
+JsonDocument ConfigManager::getWiFiConfig() const {
+  return getConfigSection("wifi", _wifiConfig);
+}
+
+JsonDocument ConfigManager::getWebServerConfig() const {
+  return getConfigSection("webServer", _wifiConfig);
+}
+
+JsonDocument ConfigManager::getOTAConfig() const {
+  return getConfigSection("ota", _wifiConfig);
+}
+
+void ConfigManager::listFiles() {
+  LOG_INFO("Listing files on the device:");
+  File root = LittleFS.open("/");
+  if (!root) {
+    LOG_ERROR("Failed to open root directory.");
+  } else if (!root.isDirectory()) {
+    LOG_ERROR("Root is not a directory.");
+  } else {
+    File file = root.openNextFile();
+    while (file) {
+      LOG_INFO("File: " + std::string(file.name()));
+      file.close();
+      file = root.openNextFile();
+    }
   }
-  return obj;
 }
