@@ -6,6 +6,7 @@
 #include <AsyncWebSocket.h>
 #include <DNSServer.h>
 #include <ESPAsyncWebServer.h>
+#include <ESPAsyncWiFiManager.h>
 #include <WiFi.h>
 
 #include <memory>
@@ -23,6 +24,7 @@ class WebServerManager {
  private:
   std::shared_ptr<AsyncWebServer> _server;
   std::unique_ptr<DNSServer> _dnsServer;  // needed by ESPAsyncWifiManager
+  std::unique_ptr<AsyncWiFiManager> _wifiManager;
 
   OTAUpdateManager _otaUpdateManager;
   WebSocketManager _wsManager;
@@ -39,4 +41,7 @@ class WebServerManager {
   void startmDNS(std::string hostname);
   void connectToWifi(std::string ssid, std::string password);
   void startOTA();
+
+  void serveStaticFiles(AsyncWebServerRequest* request);
+  const char* getMimeType(const String& path);
 };
