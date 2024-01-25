@@ -35,7 +35,7 @@ class DisplayManager {
   static Arduino_RGB_Display* _gfxContext;
   Arduino_ESP32RGBPanel* _rgbPanel;
 
-  void initializeDisplay(const JsonObject& displayConfig);
-  void initializeLVGL(const JsonObject& displayConfig);
-  void initializeTouchScreen(const JsonObject& touchScreenConfig);
+  void initializeDisplay(JsonDocument displayConfig);
+  void initializeLVGL(JsonDocument displayConfig);
+  void initializeTouchScreen(JsonDocument touchScreenConfig);
 };

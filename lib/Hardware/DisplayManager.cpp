@@ -13,9 +13,9 @@ Arduino_RGB_Display* DisplayManager::_gfxContext =
     nullptr;  // Initialize static member
 
 void DisplayManager::initialize() {
-  ConfigManager configManager;
-  if (!configManager.loadConfig("/UIHardwareConfig.json", "r")) {
-    Logger::error("Failed to load configuration, using default settings.");
+  auto configManager = ConfigManager::getInstance();
+  if (!configManager.loadHardwareConfig()) {
+    LOG_ERROR("Failed to load configuration");
   }
 
   initializeDisplay(configManager.getDisplayConfig());
@@ -31,7 +31,7 @@ void DisplayManager::update() {
   lv_timer_handler();  // GUI update
 }
 
-void DisplayManager::initializeDisplay(const JsonObject& displayConfig) {
+void DisplayManager::initializeDisplay(JsonDocument displayConfig) {
   // Check if all necessary display configuration values are present
   if (!displayConfig.containsKey("width") ||
       !displayConfig.containsKey("height") ||
@@ -53,7 +53,7 @@ void DisplayManager::initializeDisplay(const JsonObject& displayConfig) {
       !displayConfig.containsKey("pclkActiveNeg") ||
       !displayConfig.containsKey("speedHz") ||
       !displayConfig.containsKey("backlightPin")) {
-    Logger::error("[ConfigManager] Missing display configuration keys");
+    LOG_ERROR("Missing display configuration keys");
     return;  // Return early if configuration is incomplete
   }
 
@@ -81,17 +81,17 @@ void DisplayManager::initializeDisplay(const JsonObject& displayConfig) {
                                         displayConfig["height"], _rgbPanel);
 
   if (_gfxContext == nullptr) {
-    Logger::error("[DisplayManager] Failed to allocate memory for _gfxContext");
+    LOG_ERROR("Failed to allocate memory for _gfxContext");
     return;
   }
 
   _gfxContext->begin();
   _gfxContext->fillScreen(BLACK);
 
-  Logger::info("[DisplayManager] Display panel driver created");
+  LOG_INFO("Display panel driver created");
 }
 
-void DisplayManager::initializeLVGL(const JsonObject& displayConfig) {
+void DisplayManager::initializeLVGL(JsonDocument displayConfig) {
   // LVGL initialization
   lv_init();
   // Allocate the buffer in PSRAM
@@ -114,7 +114,7 @@ void DisplayManager::initializeLVGL(const JsonObject& displayConfig) {
   pinMode(backlightPin, OUTPUT);
   digitalWrite(backlightPin, HIGH);  // Turn on the backlight
 
-  Logger::info("[DisplayManager] LVGL initialized");
+  LOG_INFO("LVGL initialized");
 }
 
 void DisplayManager::disp_flush(lv_disp_drv_t* disp_drv, const lv_area_t* area,
@@ -133,13 +133,12 @@ void DisplayManager::disp_flush(lv_disp_drv_t* disp_drv, const lv_area_t* area,
   lv_disp_flush_ready(disp_drv);
 }
 
-void DisplayManager::initializeTouchScreen(
-    const JsonObject& touchScreenConfig) {
-  if (!touchScreenConfig) {
-    Logger::error("[DisplayManager] Touch screen config not loaded");
+void DisplayManager::initializeTouchScreen(JsonDocument touchScreenConfig) {
+  if (touchScreenConfig.isNull()) {
+    LOG_ERROR("Touch screen config not loaded");
     return;
   } else if (_gfxContext == nullptr) {
-    Logger::error("[DisplayManager] LVGL gfxContext not initialized");
+    LOG_ERROR("LVGL gfxContext not initialized");
     return;
   } else {
     _touchScreenManager =
