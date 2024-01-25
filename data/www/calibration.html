@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Calibration Page</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+<h1>Calibration Page</h1>
+
+<div>
+  <h2>Voltage Calibration</h2>
+  <button onclick="autoCalibrateVoltage()">Auto Calibrate Voltage</button>
+  <canvas id="voltageChart" width="400" height="200"></canvas>
+</div>
+
+<div>
+  <h2>Current Calibration</h2>
+  <button onclick="resetMappings()">Reset</button>
+  <canvas id="currentChart" width="400" height="200"></canvas>
+  
+  <table id="currentTable">
+    <thead>
+      <tr>
+        <th>Level</th>
+        <th>Actual Current</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="currentTableBody">
+    </tbody>
+  </table>
+  
+  <button onclick="addMappingRow()">Add Mapping</button>
+</div>
+
+<script>
+  // Initialize charts
+  const voltageData = [];
+  const currentData = [];
+  
+  const voltageChart = new Chart(document.getElementById('voltageChart'), {
+    type: 'line',
+    data: {
+      labels: [],  // Levels (0-255)
+      datasets: [{
+        label: 'Voltage',
+        data: voltageData,
+      }]
+    }
+  });
+
+  const currentChart = new Chart(document.getElementById('currentChart'), {
+    type: 'line',
+    data: {
+      labels: [],  // Levels (0-255)
+      datasets: [{
+        label: 'Current',
+        data: currentData,
+      }]
+    }
+  });
+
+  // Auto calibrate voltage (simulation)
+  function autoCalibrateVoltage() {
+    voltageData.length = 0;
+    for (let i = 0; i <= 255; i++) {
+      const actualVoltage = i * 0.05;  // Simulated actual voltage
+      voltageData.push(actualVoltage);
+    }
+    voltageChart.update();
+  }
+
+  // Reset all mappings with confirmation
+  function resetMappings() {
+    if (confirm('Are you sure you want to reset all mappings?')) {
+      voltageData.length = 0;
+      currentData.length = 0;
+      voltageChart.update();
+      currentChart.update();
+      document.getElementById('currentTableBody').innerHTML = '';
+    }
+  }
+
+  // Add a row to the current mapping table
+  function addMappingRow() {
+    const tableBody = document.getElementById('currentTableBody');
+    const row = tableBody.insertRow();
+    const cell1 = row.insertCell(0);
+    const cell2 = row.insertCell(1);
+    const cell3 = row.insertCell(2);
+    cell1.innerHTML = '<input type="number" placeholder="Level">';
+    cell2.innerHTML = '<input type="number" placeholder="Actual Current">';
+    cell3.innerHTML = '<button onclick="deleteRow(this)">Delete</button>';
+  }
+
+  // Delete a row from the current mapping table
+  function deleteRow(button) {
+    const row = button.parentNode.parentNode;
+    const rowIndex = row.rowIndex - 1;
+    currentData.splice(rowIndex, 1);
+    currentChart.update();
+    row.parentNode.removeChild(row);
+  }
+</script>
+
+</body>
+</html>
