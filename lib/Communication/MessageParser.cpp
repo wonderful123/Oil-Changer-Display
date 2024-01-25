@@ -16,14 +16,18 @@ MessageData MessageParser::parseMessage(const std::string& message) {
   }
 
   std::string content = extractContent(message);
-  auto [identifier, payload] = extractIdentifierAndPayload(content);
+  auto result = extractIdentifierAndPayload(content);
+  const auto& identifier = result.first;
+  const auto& payload = result.second;
 
   if (!isValidIdentifier(identifier)) {
     Logger::error("[MessageParser] Identifier mismatch");
     return MessageData();
   }
 
-  auto [parsedPayload, extractedChecksum] = extractPayloadAndChecksum(payload);
+  auto payloadAndChecksum = extractPayloadAndChecksum(payload);
+  const auto& parsedPayload = payloadAndChecksum.first;
+  const auto& extractedChecksum = payloadAndChecksum.second;
 
   if (!validateChecksum(parsedPayload, extractedChecksum)) {
     Logger::error("[MessageParser] Checksum validation failed");
@@ -74,20 +78,6 @@ void MessageParser::parsePayloadToData(const std::string& payload,
       data.data()[key] = value;
     }
   }
-}
-
-bool MessageParser::validateChecksum(const std::string& payload,
-                                     const std::string& receivedChecksumStr) {
-  unsigned int sum = 0;
-  for (char c : payload) {
-    sum += static_cast<unsigned int>(c);
-  }
-  unsigned int calculatedChecksum = sum % 256;
-  // LOG_DEBUG("Calculated checksum: " + std::to_string(calculatedChecksum));
-
-  unsigned int receivedChecksum =
-      static_cast<unsigned int>(std::stoi(receivedChecksumStr));
-  return calculatedChecksum == receivedChecksum;
 }
 
 bool MessageParser::validateChecksum(const std::string& payload,
