@@ -1,0 +1,22 @@
+{
+  "wifi": {
+    "ssid": "GretaThurnberg",
+    "password": "trump2020"
+  },
+  "webServer": {
+    "port": 80,
+    "hostname": "oilchangerdisplay",
+    "auth": {
+      "username": "admin",
+      "password": "admin"
+    }
+  },
+  "ota": {
+    "updateURL": "http://www.smoothcontrol.com/oil-changer/firmware/firmware.bin",
+    "checkInterval": 86400000,
+    "auth": {
+      "username": "otaUser",
+      "password": "otaPass"
+    }
+  }
+}
