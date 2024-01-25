@@ -3,10 +3,8 @@
 
 #include <memory>
 
-#include "CommandHandler.h"
 #include "CommunicationManager.h"
 #include "DataTracker.h"
-#include "EventDispatcher.h"
 #include "MessageParser.h"
 #include "UIManager.h"
 
@@ -49,8 +47,6 @@ class SystemManager {
  private:
   std::unique_ptr<CommunicationManager> _communicationManager;
   std::shared_ptr<UIManager> _uiManager;
-  std::unique_ptr<EventDispatcher> _eventDispatcher;
-  std::unique_ptr<CommandHandler> _commandHandler;
   std::shared_ptr<DataTracker> _dataTracker;
 
   void initializeCommunicationManager();
