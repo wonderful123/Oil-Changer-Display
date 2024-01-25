@@ -53,13 +53,13 @@ std::pair<std::string, std::string> MessageParser::extractIdentifierAndPayload(
 
 std::pair<std::string, std::string> MessageParser::extractPayloadAndChecksum(
     const std::string& payload) {
-  size_t lastSemicolonPos = payload.rfind(';');
-  if (lastSemicolonPos == std::string::npos) {
+  size_t cksTagPos = payload.rfind(";CKS:");
+  if (cksTagPos == std::string::npos) {
     Logger::error("[MessageParser] Invalid message format - missing checksum");
     return {"", ""};
   }
-  return {payload.substr(0, lastSemicolonPos),
-          payload.substr(lastSemicolonPos + 1)};
+  return {payload.substr(0, cksTagPos),
+          payload.substr(cksTagPos + 5)};  // 5 is the length of ";CKS:"
 }
 
 void MessageParser::parsePayloadToData(const std::string& payload,
@@ -88,6 +88,26 @@ bool MessageParser::validateChecksum(const std::string& payload,
   unsigned int receivedChecksum =
       static_cast<unsigned int>(std::stoi(receivedChecksumStr));
   return calculatedChecksum == receivedChecksum;
+}
+
+bool MessageParser::validateChecksum(const std::string& payload,
+                                     const std::string& receivedChecksumStr) {
+  unsigned int sum = 0;
+  for (char c : payload) {
+    sum += static_cast<unsigned int>(c);
+  }
+  unsigned int calculatedChecksum = sum % 256;
+
+  unsigned int receivedChecksum =
+      static_cast<unsigned int>(std::stoi(receivedChecksumStr));
+  if (calculatedChecksum != receivedChecksum) {
+    LOG_ERROR(
+        "Checksum error. Calculated: " + std::to_string(calculatedChecksum) +
+        ", Expected: " + std::to_string(receivedChecksum));
+    return false;
+  }
+
+  return true;
 }
 
 bool MessageParser::isValidIdentifier(const std::string& identifier) {
