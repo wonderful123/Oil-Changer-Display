@@ -3,7 +3,7 @@
 
 #include "TouchScreen.h"
 
-TouchScreenManager::TouchScreenManager(const JsonObject& touchConfig,
+TouchScreenManager::TouchScreenManager(JsonDocument touchConfig,
                                        Arduino_RGB_Display* gfxContext) {
   _touchScreen = std::make_shared<TouchScreen>(gfxContext);
 }

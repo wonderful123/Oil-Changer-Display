@@ -11,8 +11,7 @@ class TouchScreen;
 
 class TouchScreenManager {
  public:
-  TouchScreenManager(const JsonObject& touchConfig,
-                     Arduino_RGB_Display* gfxContext);
+  TouchScreenManager(JsonDocument touchConfig, Arduino_RGB_Display* gfxContext);
   void readTouchScreen(lv_indev_drv_t* indev_driver, lv_indev_data_t* data);
 
  private:
