@@ -37,8 +37,8 @@ void setup() {
 }
 
 void loop() {
-  systemManager.update();
   displayManager.update();
+  systemManager.update();
   webServerManager.update();
 }
 
