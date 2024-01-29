@@ -9,16 +9,14 @@
 #include "SystemManager.h"
 
 SystemManager::SystemManager()
-    : _dataTracker(std::make_shared<DataTracker>()) {}
-
-void SystemManager::initialize() {
-  initializeCommunicationManager();
+    : _communicationManager(new CommunicationManager()) {
+  _dataTracker = std::make_shared<DataTracker>();
   _uiManager = std::make_shared<UIManager>(_dataTracker);
-  _uiManager->initialize();
 }
 
-void SystemManager::initializeCommunicationManager() {
+void SystemManager::initialize() {
   _communicationManager->initialize();
+  _uiManager->initialize();
 }
 
 void SystemManager::update() {
