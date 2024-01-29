@@ -29,6 +29,7 @@ void UIManager::initialize() {
   subscribeToDataTracker("OilTemp", &UIManager::onGenericFloatDataChange);
   subscribeToDataTracker("FillRate", &UIManager::onFlowRateExtractChange);
   subscribeToDataTracker("ExtractRate", &UIManager::onFlowRateFillChange);
+  LOG_INFO("UIManager initialized");
 }
 
 void UIManager::registerElement(const std::string& dataKey, lv_obj_t* element) {
