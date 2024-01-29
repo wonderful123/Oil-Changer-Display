@@ -49,8 +49,6 @@ class SystemManager {
   std::shared_ptr<UIManager> _uiManager;
   std::shared_ptr<DataTracker> _dataTracker;
 
-  void initializeCommunicationManager();
   void processMessageData(MessageData message);
-  bool isCommandMessage(const MessageData& data);
   void updateSystemData(const MessageData& data);
 };
