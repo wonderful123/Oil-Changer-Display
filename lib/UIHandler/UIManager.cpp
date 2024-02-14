@@ -8,9 +8,7 @@
 #include "UIManager.h"
 
 UIManager::UIManager(std::shared_ptr<DataTracker> dataTracker)
-    : _dataTracker(dataTracker) {
-  setupUI();
-}
+    : _dataTracker(dataTracker) {}
 
 // Maps all elements defined the UIInitializer
 void UIManager::setupUI() {
@@ -19,11 +17,13 @@ void UIManager::setupUI() {
 }
 
 void UIManager::initialize() {
+  setupUI();
+
   // Subscribe to DataTracker changes
-  subscribeToDataTracker("FillCapacity", &UIManager::onFillCapacityChange);
   subscribeToDataTracker("AmountFilled", &UIManager::onFillExtractAmountChange);
   subscribeToDataTracker("AmountExtracted",
                          &UIManager::onFillExtractAmountChange);
+  subscribeToDataTracker("FillCapacity", &UIManager::onFillCapacityChange);
   subscribeToDataTracker("BatteryVoltage",
                          &UIManager::onGenericFloatDataChange);
   subscribeToDataTracker("OilTemp", &UIManager::onGenericFloatDataChange);
