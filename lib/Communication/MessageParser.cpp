@@ -11,7 +11,7 @@ MessageData MessageParser::parseMessage(const std::string& message) {
   MessageData data;
 
   if (message.empty() || message.front() != '<' || message.back() != '>') {
-    LOG_DEBUG("[MessageParser] Message is empty or invalid format");
+    LOG_ERROR("[MessageParser] Message is empty or invalid format");
     return data;
   }
 
@@ -30,7 +30,7 @@ MessageData MessageParser::parseMessage(const std::string& message) {
   const auto& extractedChecksum = payloadAndChecksum.second;
 
   if (!validateChecksum(parsedPayload, extractedChecksum)) {
-    Logger::error("[MessageParser] Checksum validation failed");
+    LOG_ERROR("Checksum validation failed");
     return MessageData();
   }
 
@@ -48,8 +48,7 @@ std::pair<std::string, std::string> MessageParser::extractIdentifierAndPayload(
     const std::string& content) {
   size_t idEndPos = content.find(';');
   if (idEndPos == std::string::npos) {
-    Logger::error(
-        "[MessageParser] Invalid message format - missing identifier");
+    LOG_ERROR("Invalid message format - missing identifier");
     return {"", ""};
   }
   return {content.substr(0, idEndPos), content.substr(idEndPos + 1)};
@@ -59,7 +58,7 @@ std::pair<std::string, std::string> MessageParser::extractPayloadAndChecksum(
     const std::string& payload) {
   size_t cksTagPos = payload.rfind(";CKS:");
   if (cksTagPos == std::string::npos) {
-    Logger::error("[MessageParser] Invalid message format - missing checksum");
+    LOG_ERROR("Invalid message format - missing checksum");
     return {"", ""};
   }
   return {payload.substr(0, cksTagPos),
