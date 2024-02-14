@@ -4,34 +4,29 @@
 #include <AsyncTCP.h>
 #include <AsyncUDP.h>
 #include <AsyncWebSocket.h>
-#include <DNSServer.h>
+#include <ESPAsyncDNSServer.h>
 #include <ESPAsyncWebServer.h>
-#include <ESPAsyncWiFiManager.h>
-#include <WiFi.h>
 
+#include <ESPAsync_WiFiManager.hpp>
 #include <memory>
 #include <string>
 
-#include "OTAUpdateManager.h"
 #include "WebSocketManager.h"
 
 class WebServerManager {
  public:
+  WebServerManager();
   void initialize();
   void update();  // Call in main loop
   void sendWSMessage(const std::string& message);
 
  private:
   std::shared_ptr<AsyncWebServer> _server;
-  std::unique_ptr<DNSServer> _dnsServer;  // needed by ESPAsyncWifiManager
-  std::unique_ptr<AsyncWiFiManager> _wifiManager;
-
-  OTAUpdateManager _otaUpdateManager;
-  WebSocketManager _wsManager;
+  AsyncDNSServer _dnsServer;  // needed by ESPAsyncWifiManager
+  std::unique_ptr<ESPAsync_WiFiManager> _wifiManager;
+  std::unique_ptr<WebSocketManager> _wsManager;
 
   int _port = 80;
-  std::string _ssid;
-  std::string _password;
   std::string _hostname;
   std::string _httpUsername;
   std::string _httpPassword;
@@ -39,9 +34,7 @@ class WebServerManager {
   void loadConfig();
   void startWebServer(int port);
   void startmDNS(std::string hostname);
-  void connectToWifi(std::string ssid, std::string password);
-  void startOTA();
-
+  void startWebSocket(std::shared_ptr<AsyncWebServer> server);
   void serveStaticFiles(AsyncWebServerRequest* request);
   const char* getMimeType(const String& path);
 };

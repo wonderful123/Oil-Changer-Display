@@ -6,7 +6,9 @@
 #include <memory>
 #include <string>
 
-class WebSocketManager {
+#include "EventManager/EventManager.h"
+
+class WebSocketManager : public IEventListener {
  public:
   WebSocketManager();
   void initialize(AsyncWebServer* server);
@@ -16,6 +18,7 @@ class WebSocketManager {
  private:
   std::unique_ptr<AsyncWebSocket> _ws;
 
+  virtual void onEvent(const std::string& message) override;
   void onWebSocketEvent(AsyncWebSocket* server, AsyncWebSocketClient* client,
                         AwsEventType type, void* arg, uint8_t* data,
                         size_t len);

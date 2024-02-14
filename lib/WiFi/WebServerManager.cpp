@@ -1,20 +1,27 @@
 // WebServerManager.cpp
 #include <ArduinoJson.h>
 #include <ESPmDNS.h>
-#include <WiFi.h>
 
 #include "ConfigManager.h"
 #include "Logger.h"
 #include "WebServerManager.h"
 
+WebServerManager::WebServerManager() : _dnsServer() {}
+
 void WebServerManager::initialize() {
-  WiFi.mode(WIFI_STA);
+  // Load configuration from non-volatile storage
   loadConfig();
-  connectToWifi(_ssid, _password);
+
+  // Initialize Async WiFi Manager with callback
+  _wifiManager = std::unique_ptr<ESPAsync_WiFiManager>(
+      new ESPAsync_WiFiManager(_server.get(), &_dnsServer, _hostname.c_str()));
+  _wifiManager->setConfigPortalTimeout(180);  // Set timeout for config portal
+  _wifiManager->autoConnect(
+      "OilChangerDisplay");  // This will block until connected to WiFi
+
   startWebServer(_port);
-  _wsManager.initialize(_server.get());
+  startWebSocket(_server);
   startmDNS(_hostname);
-  startOTA();
   _server->begin();
 }
 
@@ -25,26 +32,20 @@ void WebServerManager::loadConfig() {
   auto webServerConfig = configManager.getWebServerConfig();
   _port = webServerConfig["port"];
   _hostname = webServerConfig["hostname"].as<std::string>();
-
-  auto wifiConfig = configManager.getWiFiConfig();
-  _ssid = wifiConfig["ssid"].as<std::string>();
-  _password = wifiConfig["password"].as<std::string>();
 }
 
-void WebServerManager::update() { _otaUpdateManager.update(); }
+void WebServerManager::update() {}
 
 void WebServerManager::startWebServer(int port) {
   _server = std::make_shared<AsyncWebServer>(port);
-  _server->serveStatic("/", LittleFS, "/www/");
+  _server->serveStatic("/", LittleFS, "/www/").setDefaultFile("index.html");
 
-  _server->on("/", HTTP_GET, [this](AsyncWebServerRequest* request) {
-    request->send(LittleFS, "/index.html", "text/html");
+  // Handling not found with custom 404 page
+  _server->onNotFound([](AsyncWebServerRequest* request) {
+    request->send(404, "text/html", "404: Not Found");
   });
 
-  // Generic handler for all other files
-  _server->onNotFound(
-      [this](AsyncWebServerRequest* request) { serveStaticFiles(request); });
-  LOG_INFO("Started WebServer on port: " + std::to_string(_port));
+  LOG_INFO("Started WebServer on port " + std::to_string(_port));
 }
 
 void WebServerManager::startmDNS(std::string hostname) {
@@ -55,27 +56,17 @@ void WebServerManager::startmDNS(std::string hostname) {
   LOG_INFO("mDNS server set up on hostname: http://" + hostname + ".local");
 }
 
-void WebServerManager::connectToWifi(std::string ssid, std::string password) {
-  _wifiManager = std::unique_ptr<AsyncWiFiManager>(
-      new AsyncWiFiManager(_server.get(), _dnsServer.get()));
-  _wifiManager->autoConnect("Oil Change Display");
-
-  WiFi.mode(WIFI_STA);  // Optional
-  WiFi.begin(ssid.c_str(), password.c_str());
-  while (WiFi.status() != WL_CONNECTED) {
-    Serial.print(".");
-    delay(100);
-  }
-
-  Serial.println("\nConnected to the WiFi network");
-  Serial.print("Local ESP32 IP: ");
-  Serial.println(WiFi.localIP());
+void WebServerManager::startWebSocket(std::shared_ptr<AsyncWebServer> server) {
+  _wsManager = std::unique_ptr<WebSocketManager>(new WebSocketManager());
+  _wsManager->initialize(server.get());
 }
 
-void WebServerManager::startOTA() { _otaUpdateManager.initialize(_server); }
-
 void WebServerManager::sendWSMessage(const std::string& message) {
-  _wsManager.send(message);
+  if (_wsManager) {  // Check if _wsManager is initialized
+    _wsManager->send(message);
+  } else {
+    LOG_ERROR("WebsocketManager not initialized");
+  }
 }
 
 void WebServerManager::serveStaticFiles(AsyncWebServerRequest* request) {
