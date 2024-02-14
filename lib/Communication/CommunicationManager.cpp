@@ -11,13 +11,17 @@
 #include "MessageData.h"
 #include "MessageParser.h"
 
-CommunicationManager::CommunicationManager() : _interface(nullptr), buffer("") {}
+CommunicationManager::CommunicationManager() : _interface(nullptr) {
+  buffer.reserve(MAX_MESSAGE_LENGTH);  // Preallocate buffer
+}
 
 void CommunicationManager::initialize() {
   //_interface = new ESP32Serial(serialConfig);
   //_interface = &HardwareSerial(0);
-  _interface = &Serial1;
-  _interface->begin(115200, SERIAL_8N1, 17, 18);
+  // _interface = &Serial;
+  _interface = &Serial;
+  _interface->begin(115200);
+  // _interface->begin(115200, SERIAL_8N1, 17, 18);
   buffer.clear();
 
   LOG_INFO("CommunicationManager initialized");
@@ -25,7 +29,8 @@ void CommunicationManager::initialize() {
 
 MessageType CommunicationManager::detectMessageType(
     const std::string& message) {
-  std::string deviceIdentifierTag = "<" + std::string(DEVICE_IDENTIFIER) + ";";
+  static const std::string deviceIdentifierTag =
+      "<" + std::string(DEVICE_IDENTIFIER) + ";";
   if (message.rfind(deviceIdentifierTag, 0) == 0 &&
       message.find("CKS:") != std::string::npos) {
     return MessageType::DataMessage;
@@ -35,42 +40,66 @@ MessageType CommunicationManager::detectMessageType(
 
 MessageData CommunicationManager::processMessage() {
   if (!_interface->available() && buffer.empty()) {
-    return MessageData();  // No new data and no partial message in buffer
+    return MessageData();  // Early return if no data and buffer is empty
   }
 
+  // Initialize the start time for timeout check.
   auto startTime = std::chrono::steady_clock::now();
 
-  while (!isMessageComplete(buffer)) {
-    if (std::chrono::duration_cast<std::chrono::milliseconds>(
-            std::chrono::steady_clock::now() - startTime)
-            .count() > MESSAGE_TIMEOUT_MS) {
-      LOG_ERROR("Message read timeout");
+  // Process incoming characters.
+  while (_interface->available() > 0) {
+    // Check for timeout first to handle it immediately.
+    auto currentTime = std::chrono::steady_clock::now();
+    if (currentTime - startTime >
+        std::chrono::milliseconds(MESSAGE_TIMEOUT_MS)) {
+      LOG_DEBUG("Message read timeout");
       buffer.clear();
       return MessageData();
     }
 
-    if (_interface->available()) {
-      char charRead = static_cast<char>(_interface->read());
-      if (!isValidCharacter(charRead) ||
-          buffer.length() >= MAX_MESSAGE_LENGTH) {
-        LOG_ERROR("Invalid message");
-        buffer.clear();
-        return MessageData();
-      }
-      buffer += charRead;
+    // Read the next character.
+    char charRead = static_cast<char>(_interface->read());
+
+    // Validate the character.
+    if (!isValidCharacter(charRead)) {
+      buffer.clear();
+      return MessageData();  // Clear buffer on invalid character.
+    }
+
+    // Check for buffer overflow.
+    if (buffer.length() >= MAX_MESSAGE_LENGTH) {
+      LOG_DEBUG("Maximum message length exceeded");
+      buffer.clear();
+      return MessageData();  // Clear buffer if max length exceeded.
+    }
+
+    // Append the character to the buffer.
+    buffer.push_back(charRead);
+
+    // Check if the message is complete.
+    if (isMessageComplete(buffer)) {
+      LOG_DEBUG("Complete message read: " + buffer);
+      auto parsedData = processMessageType(buffer);
+      buffer.clear();
+      return parsedData;
     }
   }
-  LOG_DEBUG("Message read: " + buffer);
 
+  // If the loop exits without finding a complete message, it means there's no
+  // more data available.
+  LOG_DEBUG("Incomplete message pending, waiting for more data");
+  return MessageData();  // Incomplete message or waiting for more.
+}
+
+MessageData CommunicationManager::processMessageType(
+    const std::string& buffer) {
   MessageType type = detectMessageType(buffer);
-  MessageData parsedData;
   if (type == MessageType::DataMessage) {
-    parsedData = parseDataMessage(buffer);
+    return parseDataMessage(buffer);
   } else {
     processOtherMessage(buffer);
+    return MessageData();
   }
-  buffer.clear();  // Clear buffer after processing
-  return parsedData;
 }
 
 bool CommunicationManager::isMessageComplete(const std::string& buffer) {
@@ -83,7 +112,6 @@ bool CommunicationManager::isValidCharacter(char c) {
 
 MessageData CommunicationManager::parseDataMessage(
     const std::string& receivedMessage) {
-  LOG_INFO(receivedMessage);
   return MessageParser::parseMessage(receivedMessage);
 }
 
