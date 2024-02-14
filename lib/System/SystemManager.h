@@ -50,5 +50,4 @@ class SystemManager {
   std::shared_ptr<DataTracker> _dataTracker;
 
   void processMessageData(MessageData message);
-  void updateSystemData(const MessageData& data);
 };

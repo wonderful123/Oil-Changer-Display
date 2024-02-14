@@ -27,10 +27,6 @@ void SystemManager::update() {
 }
 
 void SystemManager::processMessageData(MessageData parsedData) {
-  // Handle data update message
-  updateSystemData(parsedData);
-}
-
-void SystemManager::updateSystemData(const MessageData& messageData) {
-  _dataTracker->updateFromMessageData(messageData);
+  // Update system data
+  _dataTracker->updateFromMessageData(parsedData);
 }
