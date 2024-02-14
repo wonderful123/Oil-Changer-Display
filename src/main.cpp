@@ -1,10 +1,12 @@
 // main.cpp
 #include <Arduino.h>
+#include <ESPAsync_WiFiManager.h>
 
 #include <string>
 
 #include "DebugUtils.h"
 #include "DisplayManager.h"
+#include "EventManager/EventManager.h"
 #include "Logger.h"
 #include "SystemManager.h"
 #include "WebServerManager.h"
@@ -19,7 +21,7 @@ SystemManager systemManager;
 WebServerManager webServerManager;
 
 void serialLogCallback2(Logger::Level level, const std::string& message) {
-  webServerManager.sendWSMessage(message);
+  EventManager::getInstance().notify(message);
   if (!Serial) return;
   Serial.println(message.c_str());
   Serial.flush();
@@ -31,7 +33,14 @@ void setup() {
   systemManager.initialize();
   webServerManager.initialize();
 
-  Logger::setLogCallback(serialLogCallback2);
+  // If Logger is updated to always expect a context but you don't need it here:
+  Logger::setLogCallback(
+      [](Logger::Level level, const std::string& message, void* context) {
+        serialLogCallback2(level, message);
+        // Context is not used but could be cast and utilized if needed.
+      },
+      nullptr);  // Passing nullptr as the context
+
   DebugUtils::logMemoryUsage();
   Logger::info("[Main] Setup complete");
 }
