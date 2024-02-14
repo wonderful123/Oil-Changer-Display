@@ -72,52 +72,91 @@ class Logger {
   enum Level { DEBUG, INFO, WARN, ERROR };
 
   /**
-   * Type definition for log callback function.
+   * @brief Type definition for log callback function without context.
+   *
+   * Defines a function signature for logging callbacks that do not require
+   * additional context information. This allows for simple logging scenarios
+   * where the message and its severity level are sufficient for logging
+   * purposes.
    */
-  using LogCallback = void (*)(Level, const std::string &);
+  using LogCallback = std::function<void(Level, const std::string &)>;
 
   /**
    * @brief Sets the callback function used for logging messages.
    *
-   * The log callback function is invoked whenever a log message is issued. It
-   * takes two parameters: the log level and the message to be logged. The
-   * callback function should be implemented by the user and should handle the
-   * logging of the message according to the desired behavior, such as writing
-   * to a file, printing to the console, or sending the message over a network.
-   * The function should have the following signature: \code void
-   * logCallback(Logger::Level level, const char *message); \endcode The log
-   * level parameter indicates the severity level of the log message, and the
-   * message parameter contains the actual log message to be logged. The user
-   * can use this information to customize the logging behavior based on the log
-   * level, such as filtering out certain levels or applying different
-   * formatting based on the severity.
+   * The log callback function is invoked whenever a log message is issued.
+   * It takes two parameters: the log level and the message string. This allows
+   * the callback implementation to handle the message according to the
+   * application's logging strategy, such as outputting to the console, writing
+   * to a file, or sending over a network.
    *
-   * @param callback Function pointer to the log handling function. This should
-   * be a function that matches the Logger::LogCallback signature.
+   * @param callback A `std::function` matching the `LogCallback` signature.
    *
    * @example
-   * Implementation of a log handling function, e.g., write the log message to a
-   * file: \code void myLogCallback(Logger::Level level, const char *message) {
-   *   std::ofstream logFile("log.txt", std::ios::app);
-   *   logFile << "[" << Logger::levelToString(level) << "] " << message <<
-   * std::endl; logFile.close();
-   * }
-   *
-   * To set the log callback function, pass the function pointer to the
-   * \code
-   * setLogCallback method: Logger::setLogCallback(myLogCallback);
-   * \endcode
+   * Here's how you can set a simple console log callback:
+   * @code
+   * Logger::setLogCallback([](Logger::Level level, const std::string& message)
+   * { std::cout << "[" << Logger::levelToString(level) << "] " << message <<
+   * std::endl;
+   * });
+   * @endcode
    */
   static void setLogCallback(LogCallback callback);
 
   /**
-   * Logs a message at the specified level.
-   * This function checks against the current log level and formats the message.
+   * @brief Type definition for log callback function with context.
    *
-   * @param level Log level of the message.
-   * @param message The message to log.
+   * Extends the `LogCallback` signature by adding a `void*` parameter for
+   * passing arbitrary context information. This is particularly useful for
+   * callbacks that need to interact with or modify external state or objects.
    */
-  static void log(Level level, const std::string &message);
+  using LogCallbackWithContext =
+      std::function<void(Level, const std::string &, void *)>;
+
+  /**
+   * @brief Sets the log callback function with context.
+   *
+   * This method allows the caller to set a log callback that includes a context
+   * pointer, providing greater flexibility for complex logging scenarios. The
+   * context can be used to pass additional information or state to the
+   * callback.
+   *
+   * @param callback A `std::function` matching the `LogCallbackWithContext`
+   * signature.
+   * @param context A `void*` pointer to the context to be passed to the
+   * callback.
+   *
+   * @example
+   * Assuming `MyLoggerContext` is a struct that holds relevant logging
+   * information:
+   * @code
+   * struct MyLoggerContext {
+   *     std::string prefix;
+   *     // Other context-specific fields...
+   * };
+   *
+   * MyLoggerContext* myContext = new MyLoggerContext{"[MyApp]"};
+   * Logger::setLogCallback([](Logger::Level level, const std::string& message,
+   * void* context) { auto* ctx = static_cast<MyLoggerContext*>(context);
+   *     std::cout << ctx->prefix << "[" << Logger::levelToString(level) << "] "
+   * << message << std::endl;
+   * }, static_cast<void*>(myContext));
+   * @endcode
+   */
+  static void setLogCallback(LogCallbackWithContext callback, void *context);
+
+  /**
+   * Logs a message at the specified level with optional filename.
+   * If the message level is at or above the current log level, the message
+   * is formatted and passed to the log callback.
+   *
+   * @param level The severity level of the message.
+   * @param message The message to log.
+   * @param fileName Optional. The filename from which the log is generated.
+   * If provided, it is included in the log message.
+   */
+  static void log(Level level, const std::string &message,
+                  const std::string &fileName = "");
 
   /**
    * Converts log level enum to a corresponding string.
@@ -190,7 +229,7 @@ class Logger {
    */
   static void error(const std::string &message, const std::string &fileName);
 
-    /**
+  /**
    * @brief Extracts the filename from a full file path.
    *
    * This method takes a file path and returns the filename portion,
@@ -202,7 +241,11 @@ class Logger {
   static std::string extractFileName(const std::string &filePath);
 
  private:
-  static LogCallback _log_callback;  ///< Function pointer to the log callback.
+  static LogCallback _log_callback;  ///< Callback function without context.
+  static LogCallbackWithContext
+      _log_callback_with_context;  ///< Callback function with context.
+  static void *_callback_context;  ///< Pointer to user-defined context for the
+                                   ///< log callback.
 
   /**
    * @brief Formats a log message with the log level, color coding, and

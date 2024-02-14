@@ -1,19 +1,60 @@
 // Logger.cpp
-#include "Logger.h"
-
 #include <cstdio>
 #include <cstring>
 #include <mutex>
 
-// Initialize static members
-Logger::LogCallback Logger::_log_callback = nullptr;
+#include "Logger.h"
+
+// Initialize static members for callbacks
+Logger::LogCallback Logger::_log_callback =
+    nullptr;  // For callbacks without context
+Logger::LogCallbackWithContext Logger::_log_callback_with_context =
+    nullptr;  // For callbacks with context
+void *Logger::_callback_context =
+    nullptr;  // Context for the context-aware callback
 
 /**
- * Sets the callback function used for logging.
+ * @brief Sets the log callback function without context.
  *
- * @param callback The function to be called when a log message is issued.
+ * This overload allows setting a log callback function that will be invoked
+ * for each log message without requiring additional context. It's useful for
+ * simple logging scenarios where the callback function does not need external
+ * state or context information.
+ *
+ * @param callback The log callback function that matches the LogCallback
+ * signature. This function will be called for each log message emitted by the
+ * logger.
  */
-void Logger::setLogCallback(LogCallback callback) { _log_callback = callback; }
+void Logger::setLogCallback(LogCallback callback) {
+  // Wrap the provided callback to match the LogCallbackWithContext signature,
+  // ignoring context
+  _log_callback_with_context =
+      [callback](Level level, const std::string &message, void * /*context*/) {
+        callback(level, message);
+      };
+  // Explicitly set the context to nullptr as it's not used in this overload
+  _callback_context = nullptr;
+}
+
+/**
+ * @brief Sets the log callback function with context.
+ *
+ * This overload enables setting a log callback function along with a context
+ * pointer. The context is passed to the callback function each time it's
+ * invoked, allowing the callback to access external state or resources. This
+ * approach is beneficial for more complex logging scenarios where the callback
+ * needs to interact with other parts of the application.
+ *
+ * @param callback The log callback function that matches the
+ * LogCallbackWithContext signature. This function will receive the log level,
+ * message, and a context pointer for each log message.
+ * @param context A void pointer to the context to be passed to the callback
+ * function. This can be a pointer to any user-defined data or object.
+ */
+void Logger::setLogCallback(LogCallbackWithContext callback, void *context) {
+  _log_callback_with_context = callback;
+  _callback_context = context;
+}
 
 /**
  * Logs a message at the specified level. If the message level is at or above
@@ -23,15 +64,15 @@ void Logger::setLogCallback(LogCallback callback) { _log_callback = callback; }
  * @param level The severity level of the message.
  * @param message The message to log.
  */
-void Logger::log(Level level, const std::string &message) {
+void Logger::log(Level level, const std::string &message,
+                 const std::string &fileName) {
+  std::string formattedMessage = formatMessage(level, message, fileName);
 #if defined(LOGGER_LEVEL_DEBUG) || defined(LOGGER_LEVEL_INFO) || \
     defined(LOGGER_LEVEL_WARN) || defined(LOGGER_LEVEL_ERROR)
-  {
-    formatMessage(level, message);
-
-    if (_log_callback) {
-      _log_callback(level, message);
-    }
+  if (_log_callback_with_context) {
+    _log_callback_with_context(level, formattedMessage, _callback_context);
+  } else if (_log_callback) {
+    _log_callback(level, formattedMessage);
   }
 #endif
 }
@@ -164,8 +205,10 @@ void Logger::error(const std::string &message) {
 
 void Logger::debug(const std::string &message, const std::string &fileName) {
 #if defined(LOGGER_LEVEL_DEBUG)
-  if (_log_callback) {
-    std::string formattedMessage = formatMessage(DEBUG, message, fileName);
+  std::string formattedMessage = formatMessage(DEBUG, message, fileName);
+  if (_log_callback_with_context) {
+    _log_callback_with_context(DEBUG, formattedMessage, _callback_context);
+  } else if (_log_callback) {
     _log_callback(DEBUG, formattedMessage);
   }
 #endif
@@ -173,8 +216,10 @@ void Logger::debug(const std::string &message, const std::string &fileName) {
 
 void Logger::info(const std::string &message, const std::string &fileName) {
 #if defined(LOGGER_LEVEL_DEBUG) || defined(LOGGER_LEVEL_INFO)
-  if (_log_callback) {
-    std::string formattedMessage = formatMessage(INFO, message, fileName);
+  std::string formattedMessage = formatMessage(INFO, message, fileName);
+  if (_log_callback_with_context) {
+    _log_callback_with_context(INFO, formattedMessage, _callback_context);
+  } else if (_log_callback) {
     _log_callback(INFO, formattedMessage);
   }
 #endif
@@ -183,8 +228,10 @@ void Logger::info(const std::string &message, const std::string &fileName) {
 void Logger::warn(const std::string &message, const std::string &fileName) {
 #if defined(LOGGER_LEVEL_DEBUG) || defined(LOGGER_LEVEL_INFO) || \
     defined(LOGGER_LEVEL_WARN)
-  if (_log_callback) {
-    std::string formattedMessage = formatMessage(WARN, message, fileName);
+  std::string formattedMessage = formatMessage(WARN, message, fileName);
+  if (_log_callback_with_context) {
+    _log_callback_with_context(WARN, formattedMessage, _callback_context);
+  } else if (_log_callback) {
     _log_callback(WARN, formattedMessage);
   }
 #endif
@@ -193,8 +240,10 @@ void Logger::warn(const std::string &message, const std::string &fileName) {
 void Logger::error(const std::string &message, const std::string &fileName) {
 #if defined(LOGGER_LEVEL_DEBUG) || defined(LOGGER_LEVEL_INFO) || \
     defined(LOGGER_LEVEL_WARN) || defined(LOGGER_LEVEL_ERROR)
-  if (_log_callback) {
-    std::string formattedMessage = formatMessage(ERROR, message, fileName);
+  std::string formattedMessage = formatMessage(ERROR, message, fileName);
+  if (_log_callback_with_context) {
+    _log_callback_with_context(ERROR, formattedMessage, _callback_context);
+  } else if (_log_callback) {
     _log_callback(ERROR, formattedMessage);
   }
 #endif
