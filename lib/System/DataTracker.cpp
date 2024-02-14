@@ -47,10 +47,11 @@ void DataTracker::unsubscribe(const std::string& key,
 }
 
 void DataTracker::notifyObservers(const std::string& key) {
-  auto it = data.find(key);
-  if (it != data.end()) {
-    for (const auto& observer : observers[key]) {
-      observer(key, it->second);
+  auto it = observers.find(key);
+  if (it != observers.end()) {
+    auto observersCopy = it->second;
+    for (const auto& observer : observersCopy) {
+      observer(key, data[key]);
     }
   }
 }
@@ -59,7 +60,6 @@ void DataTracker::updateFromMessageData(const MessageData& messageData) {
   for (const auto& keyValue : messageData.data()) {
     auto it = keyMap.find(keyValue.first);
     std::string genericKey = (it != keyMap.end()) ? it->second : keyValue.first;
-
     setData(genericKey, keyValue.second);
   }
 }

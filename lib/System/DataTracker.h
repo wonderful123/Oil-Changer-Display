@@ -17,6 +17,7 @@ class DataTracker {
   std::string getData(const std::string& key) const;
   void updateFromMessageData(const MessageData& messageData);
 
+
   // Observer pattern functions
   using ObserverFunction =
       std::function<void(const std::string&, const std::string&)>;
