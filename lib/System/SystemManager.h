@@ -5,7 +5,6 @@
 
 #include "CommunicationManager.h"
 #include "DataTracker.h"
-#include "MessageParser.h"
 #include "UIManager.h"
 
 class MessageData;
@@ -49,5 +48,5 @@ class SystemManager {
   std::shared_ptr<UIManager> _uiManager;
   std::shared_ptr<DataTracker> _dataTracker;
 
-  void processMessageData(MessageData message);
+  void setMessageHandlers();
 };
