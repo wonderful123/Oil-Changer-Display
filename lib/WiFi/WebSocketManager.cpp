@@ -1,10 +1,15 @@
 // WebSocketManager.cpp
+#include "WebSocketManager.h"
+
 #include <string>
 
 #include "Logger.h"
-#include "WebSocketManager.h"
 
 WebSocketManager::WebSocketManager() : _ws(new AsyncWebSocket("/ws")) {}
+
+WebSocketManager::~WebSocketManager() {
+  EventManager::getInstance().unsubscribe(this);
+}
 
 void WebSocketManager::initialize(AsyncWebServer* server) {
   _ws->onEvent([this](AsyncWebSocket* server, AsyncWebSocketClient* client,
@@ -16,9 +21,7 @@ void WebSocketManager::initialize(AsyncWebServer* server) {
   EventManager::getInstance().subscribe(this);
 }
 
-void WebSocketManager::onEvent(const std::string& message) {
-  send(message);
-}
+void WebSocketManager::onEvent(const std::string& message) { send(message); }
 
 void WebSocketManager::send(const std::string& message) {
   if (_ws) {
@@ -53,7 +56,7 @@ void WebSocketManager::onWebSocketEvent(AsyncWebSocket* server,
       // client->printf()
       std::ostringstream helloMsg;
       helloMsg << "Hello Client " << client->id() << " :)";
-      client->printf(helloMsg.str().c_str()); // Make sure you have
+      client->printf(helloMsg.str().c_str());  // Make sure you have
       // equivalent functionality
       client->ping();
       break;
