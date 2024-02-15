@@ -11,6 +11,8 @@
 class WebSocketManager : public IEventListener {
  public:
   WebSocketManager();
+  ~WebSocketManager();
+
   void initialize(AsyncWebServer* server);
   void send(const std::string& message);
   void sendToClient(uint32_t clientId, const std::string& message);
