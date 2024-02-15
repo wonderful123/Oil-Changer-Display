@@ -6,8 +6,6 @@
 #include <unordered_map>
 #include <vector>
 
-class MessageData;
-
 class DataTracker {
  public:
   DataTracker();
@@ -15,8 +13,6 @@ class DataTracker {
   // Generic data functions
   void setData(const std::string& key, const std::string& value);
   std::string getData(const std::string& key) const;
-  void updateFromMessageData(const MessageData& messageData);
-
 
   // Observer pattern functions
   using ObserverFunction =

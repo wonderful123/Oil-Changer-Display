@@ -1,8 +1,7 @@
 // DataTracker.cpp
-#include <algorithm>
-
 #include "DataTracker.h"
-#include "MessageData.h"
+
+#include <algorithm>
 
 DataTracker::DataTracker() { initializeKeyMap(); }
 
@@ -53,13 +52,5 @@ void DataTracker::notifyObservers(const std::string& key) {
     for (const auto& observer : observersCopy) {
       observer(key, data[key]);
     }
-  }
-}
-
-void DataTracker::updateFromMessageData(const MessageData& messageData) {
-  for (const auto& keyValue : messageData.data()) {
-    auto it = keyMap.find(keyValue.first);
-    std::string genericKey = (it != keyMap.end()) ? it->second : keyValue.first;
-    setData(genericKey, keyValue.second);
   }
 }
