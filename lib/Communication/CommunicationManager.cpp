@@ -7,10 +7,7 @@
 #include <memory>
 
 #include "Config.h"
-#include "ESP32/ESP32Serial.h"
 #include "Logger.h"
-#include "MessageData.h"
-#include "MessageParser.h"
 
 CommunicationManager::CommunicationManager() {
   buffer.reserve(MAX_MESSAGE_LENGTH);
@@ -19,7 +16,8 @@ CommunicationManager::CommunicationManager() {
 void CommunicationManager::initialize() {
   //_interface = new ESP32Serial(serialConfig);
   //_interface = &HardwareSerial(0);
-  // TODO: Implement the interface using the abstract class ICommunicationInterface
+  // TODO: Implement the interface using the abstract class
+  // ICommunicationInterface
   _interface = &Serial;
   lastMessageTime =
       std::chrono::steady_clock::now();  // Initialize last message time
@@ -96,9 +94,9 @@ bool CommunicationManager::isDataMessage(const std::string& message) const {
 
 void CommunicationManager::processMessage(const std::string& message) {
   if (isDataMessage(message)) {
-    dataMessageHandler.handleMessage(message);
+    _dataMessageHandler->handleMessage(message);
   } else {
-    loggerMessageHandler.handleMessage(message);
+    _logMessageHandler->handleMessage(message);
   }
   lastMessageTime = std::chrono::steady_clock::now();  // Update last message
                                                        // time after processing
