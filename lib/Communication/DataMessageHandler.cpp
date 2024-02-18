@@ -16,6 +16,8 @@ void DataMessageHandler::handleMessage(const std::string& message) {
   // Message format is "<IDENTIFIER;key:value;...;CKS:xxx>"
   size_t start = message.find(';') + 1;
   size_t cksStart = message.rfind(";CKS:");
+  size_t end = message.find('>', cksStart);
+
   if (start == std::string::npos || cksStart == std::string::npos ||
       start >= cksStart) {
     LOG_ERROR("Invalid message format.");
@@ -23,7 +25,7 @@ void DataMessageHandler::handleMessage(const std::string& message) {
   }
 
   std::string payload = message.substr(start, cksStart - start);
-  std::string checksumStr = message.substr(cksStart + 5);
+  std::string checksumStr = message.substr(cksStart + 5, end - (cksStart + 5));
 
   // Validate the checksum is numerical
   if (!std::all_of(checksumStr.begin(), checksumStr.end(), ::isdigit)) {
