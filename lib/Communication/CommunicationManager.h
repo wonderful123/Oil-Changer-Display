@@ -29,8 +29,8 @@ class CommunicationManager {
   // std::shared_ptr<ICommunicationInterface> _interface;
   HardwareSerial* _interface = nullptr;
 
-  std::string buffer;
-  std::chrono::steady_clock::time_point lastMessageTime;
+  std::string _buffer;
+  std::chrono::steady_clock::time_point _lastMessageTime;
   static constexpr unsigned long MESSAGE_TIMEOUT_MS = 500;
   static constexpr size_t MAX_MESSAGE_LENGTH = 256;
 
