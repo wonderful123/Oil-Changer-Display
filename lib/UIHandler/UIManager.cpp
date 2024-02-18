@@ -1,11 +1,12 @@
 // UIManager.cpp
 
+#include "UIManager.h"
+
 #include <iomanip>  // For std::setprecision
 #include <sstream>  // For std::stringstream
 
 #include "DataTracker.h"
 #include "Logger.h"
-#include "UIManager.h"
 
 UIManager::UIManager(std::shared_ptr<DataTracker> dataTracker)
     : _dataTracker(dataTracker) {}
@@ -72,13 +73,25 @@ void UIManager::onFlowRateFillChange(const std::string& key,
 void UIManager::onFillExtractAmountChange(const std::string& key,
                                           const std::string& value) {
   std::string fillCapacity = _dataTracker->getData("FillCapacity");
-  int sliderValue = calculateSliderValue(value, fillCapacity);
-  std::string sliderElementKey =
-      (key == "AmountFilled") ? "SliderFill" : "SliderExtract";
-  if (uiElements.find(sliderElementKey) != uiElements.end()) {
-    lv_slider_set_value(uiElements[sliderElementKey], sliderValue, LV_ANIM_OFF);
+  int sliderValue;
+
+  // Check if the key is for extraction amount and invert the logic for display
+  if (key == "AmountExtracted") {
+    double amountExtracted = std::stod(value);
+    double totalCapacity = std::stod(fillCapacity);
+    // Calculate the inverse percentage for extraction
+    double percentageExtracted = (amountExtracted / totalCapacity) * 100.0;
+    double percentageRemaining = 100.0 - percentageExtracted;
+    sliderValue = static_cast<int>(
+        percentageRemaining * 10);  // Adjusting to 0-1000 range for the slider
+    lv_slider_set_value(uiElements["SliderExtract"], sliderValue, LV_ANIM_OFF);
+  } else if (key == "AmountFilled") {
+    // Original logic for fill amount
+    sliderValue = calculateSliderValue(value, fillCapacity);
+    lv_slider_set_value(uiElements["SliderFill"], sliderValue, LV_ANIM_OFF);
   }
 
+  // Update the label text regardless of fill or extract
   lv_label_set_text(uiElements[key], floatStringToCString(value));
 }
 
