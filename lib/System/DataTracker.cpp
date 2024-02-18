@@ -17,8 +17,16 @@ void DataTracker::initializeKeyMap() {
 }
 
 void DataTracker::setData(const std::string& key, const std::string& value) {
-  data[key] = value;
-  notifyObservers(key);
+  // Check if the key is a shorthand version and map it to its full version
+  auto mapIt = keyMap.find(key);
+  std::string mappedKey = (mapIt != keyMap.end()) ? mapIt->second : key;
+
+  // Use the full version of the key (or the original key if no mapping exists)
+  // to set the data
+  data[mappedKey] = value;
+
+  // Notify observers using the full version of the key
+  notifyObservers(mappedKey);
 }
 
 std::string DataTracker::getData(const std::string& key) const {
